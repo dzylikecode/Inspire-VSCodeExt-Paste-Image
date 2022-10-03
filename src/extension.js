@@ -1,10 +1,12 @@
 const vscode = require("vscode");
 const main = require("./main.js");
+const config = require("./config.js");
 
 /**
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
+  config.init();
   let disposable = vscode.commands.registerCommand(
     "md-paste-enhanced.paste",
     function () {

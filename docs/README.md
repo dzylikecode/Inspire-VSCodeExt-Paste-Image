@@ -18,6 +18,8 @@
 
 > 借鉴一些有用的想法, 不必完全照抄, 等价实现
 
+- 如果要进入 wsl 的状态调试, 则原来的环境就要切换到 wsl 模式再进入 debug 模式
+
 ## reference
 
 - tutorial for vscode extension
