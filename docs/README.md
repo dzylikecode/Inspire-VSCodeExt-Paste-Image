@@ -10,6 +10,14 @@
 
   > JPEGs are designed to efficiently store high-quality digital photos packed with detail and color. They compress large images into much smaller file sizes, making them easier to share and upload online.
 
+  !> 但是我发现, 通过 powershell 生成的 png 是比 jpg 小的
+
+## inspire
+
+阅读[vscode-paste-image](https://github.com/mushanshitiancai/vscode-paste-image)
+
+> 借鉴一些有用的想法, 不必完全照抄, 等价实现
+
 ## reference
 
 - tutorial for vscode extension
