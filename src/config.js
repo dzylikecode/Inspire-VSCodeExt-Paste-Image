@@ -1,6 +1,6 @@
 const vscode = require("vscode");
-
 const path = require("path");
+
 let variablePatterns = [
   {
     pattern: /\$\{currentFileDir\}/g,

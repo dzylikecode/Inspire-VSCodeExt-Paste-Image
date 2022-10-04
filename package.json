@@ -6,10 +6,12 @@
   "engines": {
     "vscode": "^1.71.0"
   },
+  "publisher": "dzylikecode",
   "author": {
     "name": "Dz",
     "email": "mathBeWithCode@gmail.com"
   },
+  "license": "MIT",
   "icon": "res/icon.png",
   "repository": {
     "type": "git",
