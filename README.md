@@ -51,6 +51,10 @@ remove annoying notification and docs in extensions
 
 fix: Paste link without selection will trigger the paste function of `Markdown All in One`
 
+### 0.0.4
+
+fix: error link in README.md
+
 ---
 
 ## more feature
