@@ -26,7 +26,9 @@
     "image",
     "markdown",
     "paste image",
-    "keybindings"
+    "keybindings",
+    "WSL",
+    "subsystem"
   ],
   "categories": [
     "Other"
