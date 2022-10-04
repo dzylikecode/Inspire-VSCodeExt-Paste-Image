@@ -1,7 +1,7 @@
 # md-paste-enhanced
 
 - market: https://marketplace.visualstudio.com/items?itemName=dzylikecode.md-paste-enhanced
-- online docs: https://github.com/dzylikecode/Inspire-VSCodeExt-Paste-Image/#/
+- online docs: https://dzylikecode.github.io/Inspire-VSCodeExt-Paste-Image/#/
 
 Who can help me write the docs? :sob: :sob: :sob:
 
