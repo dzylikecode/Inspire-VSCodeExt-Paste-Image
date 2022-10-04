@@ -7,7 +7,6 @@ const fs = require("fs");
 const path = require("path");
 
 async function main() {
-  vscode.window.showInformationMessage("Hello World from md-paste-jpg!");
   let clipContent = await vscode.env.clipboard.readText(); // 提升速度, 有文件则不用判断是否为图片
   if (clipContent == "" && (await clipboard.isImage())) {
     try {
