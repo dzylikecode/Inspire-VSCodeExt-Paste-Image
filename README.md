@@ -42,7 +42,7 @@ Initial release
 
 ### 0.0.2
 
-remove annoying notification
+remove annoying notification and docs in extensions
 
 ---
 
