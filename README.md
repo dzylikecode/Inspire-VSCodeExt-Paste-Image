@@ -1,65 +1,49 @@
-# md-paste-jpg
+# md-paste-enhanced
 
-This is the README for your extension "md-paste-jpg". After writing up a brief description, we recommend including the following sections.
+Who can help me write the docs? :sob: :sob: :sob:
+
+It works the same as [Paste Image](https://marketplace.visualstudio.com/items?itemName=mushan.vscode-paste-image). What I focus on is to make it work well on WSL and Windows and to use `ctrl + v` to paste images instead of `ctrl + alt + v`.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
-
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
-
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+use `ctrl + v` to paste images from the clipboard when writing markdown.
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+- `pasteImage.path`
 
-For example:
+  The destination to save image file.
 
-This extension contributes the following settings:
+  You can use variable:
 
-- `myExtension.enable`: enable/disable this extension
-- `myExtension.thing`: set to `blah` to do something
+  - `${currentFileDir}`: the path of directory that contain current editing file.
+  - `${projectRoot}`: the path of the project opened in vscode.
+
+- `pasteImage.basePath`
+
+  The base path of image url.
+
+  You can use variable:
+
+  - `${currentFileDir}`: the path of directory that contain current editing file.
+  - `${projectRoot}`: the path of the project opened in vscode.
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+> The plugin `Markdown All in One` will block the function that you paste image when selecting text. It's better to remove the condition that triggers paste `ctrl+v` in the shortcut settings of `Markdown All in One`. Don't worry, this plugin will call the paste function of `Markdown All in One`. I just think it's a bit of a hassle, why they can't work together without realizing the exsistence of each other.
 
 ## Release Notes
 
 Users appreciate release notes as you update your extension.
 
-### 1.0.0
+### 0.0.1
 
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+Initial release
 
 ---
 
-## Working with Markdown
+## more feature
 
-**Note:** You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
+If you want more feature, for example, make it work on Mac and Linux, Please open an issue or pull request. :smirk: :smirk: :smirk:
 
-- Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-- Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-- Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
-
-### For more information
-
-- [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-- [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+**Enjoy!** :blush: :blush: :blush:

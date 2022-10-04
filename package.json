@@ -1,11 +1,31 @@
 {
   "name": "md-paste-enhanced",
   "displayName": "markdown paste enhanced",
-  "description": "paste image directly when working on the WSL",
+  "description": "use ctrl+v to paste image directly in markdown",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.71.0"
   },
+  "author": {
+    "name": "Dz",
+    "email": "mathBeWithCode@gmail.com"
+  },
+  "icon": "res/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dzylikecode/Inspire-VSCodeExt-Paste-Image"
+  },
+  "homepage": "https://github.com/dzylikecode/Inspire-VSCodeExt-Paste-Image/blob/master/README.md",
+  "bugs": {
+    "url": "https://github.com/dzylikecode/Inspire-VSCodeExt-Paste-Image/issues"
+  },
+  "keywords": [
+    "paste",
+    "image",
+    "markdown",
+    "paste image",
+    "keybindings"
+  ],
   "categories": [
     "Other"
   ],
