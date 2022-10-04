@@ -15,9 +15,13 @@ async function main() {
       vscode.window.showInformationMessage(e);
     }
   } else {
-    try {
-      vscode.commands.executeCommand("markdown.extension.editing.paste"); // 兼容 markdown all in one
-    } catch (e) {
+    if (vscode.window.activeTextEditor.selection.isEmpty == false) {
+      try {
+        vscode.commands.executeCommand("markdown.extension.editing.paste"); // 兼容 markdown all in one
+      } catch (e) {
+        vscode.commands.executeCommand("editor.action.clipboardPasteAction");
+      }
+    } else {
       vscode.commands.executeCommand("editor.action.clipboardPasteAction");
     }
   }
