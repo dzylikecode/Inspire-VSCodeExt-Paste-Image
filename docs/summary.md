@@ -1,2 +1,3 @@
 - [:boat:](README.md)
 - [code](code.md)
+- [plugin](plugin.md)
