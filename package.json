@@ -20,7 +20,7 @@
       "properties": {
         "mdPasteEnhanced.path": {
           "type": "string",
-          "default": "${currentFileDir}",
+          "default": "${currentFileDir}/assets",
           "description": "The destination to save image file.You can use variable ${currentFileDir} and ${projectRoot}. ${currentFileDir} will be replace by the path of directory that contain current editing file. ${projectRoot} will be replace by path of the project opened in vscode."
         },
         "mdPasteEnhanced.basePath": {
@@ -40,7 +40,7 @@
       {
         "key": "ctrl+v",
         "command": "md-paste-enhanced.paste",
-        "when": "editorTextFocus && editorLangId == 'markdown'"
+        "when": "editorTextFocus && editorLangId == markdown"
       }
     ]
   },

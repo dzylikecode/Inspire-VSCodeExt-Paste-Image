@@ -20,6 +20,14 @@
 
 - 如果要进入 wsl 的状态调试, 则原来的环境就要切换到 wsl 模式再进入 debug 模式
 
+- 采用绑定 ps 的方法
+- 先写逻辑, 然后定义函数
+- bug
+
+  当在 markdown 中选中一段文字的时候, 会与 markdown all in one 冲突, 它会屏蔽这个
+
+- 采用代理的想法, 路径
+
 ## reference
 
 - tutorial for vscode extension

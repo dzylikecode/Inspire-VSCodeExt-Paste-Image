@@ -3,6 +3,8 @@ const config = require("./config.js");
 const clipboard = require("./clipboard/clipboard.js");
 // const clipboard = require("./clipboard/clipboard.js"); es6 module not supported
 const moment = require("moment");
+const fs = require("fs");
+const path = require("path");
 
 async function main() {
   vscode.window.showInformationMessage("Hello World from md-paste-jpg!");
@@ -23,10 +25,10 @@ async function main() {
 }
 
 function pasteImage() {
-  let fileName = getFileName();
+  let fileName = getFileName() + ".png";
   let fileDir = getFileDir();
   saveImage(fileDir, fileName);
-  render();
+  // render();
 }
 
 function getFileName() {
@@ -48,16 +50,25 @@ function getFileName() {
   }
 }
 
-function getFileDir() {}
+function getFileDir() {
+  return config.fileDir;
+}
 
-function saveImage(fileDir, fileName) {}
-
-const path = require("path");
+function saveImage(fileDir, fileName) {
+  mkdir(fileDir);
+  clipboard.saveImage(fileDir, fileName);
+  return;
+  function mkdir(path) {
+    if (!fs.existsSync(path)) {
+      fs.mkdirSync(path, { recursive: true });
+    }
+  }
+}
 
 // 在markdown中渲染的形式
-function render(basePath, imgPath) {
+function render(basePath, filePath) {
   if (basePath) {
-    imgPath = path.relative(basePath, imgPath);
+    filePath = path.relative(basePath, filePath);
   }
 }
 
