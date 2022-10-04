@@ -55,6 +55,10 @@ fix: Paste link without selection will trigger the paste function of `Markdown A
 
 fix: error link in README.md
 
+### 0.0.5
+
+fix: PowerShell Script is not digitally signed
+
 ---
 
 ## more feature
