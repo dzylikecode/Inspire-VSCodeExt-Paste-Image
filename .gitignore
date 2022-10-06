@@ -3,3 +3,4 @@ node_modules
 *.vsix
 temp/
 .vscode/settings.json
+out/

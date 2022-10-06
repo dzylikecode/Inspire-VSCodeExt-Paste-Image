@@ -37,6 +37,8 @@
 
   如获取当前配置路径`currentDirPath`, 实际上是一个`getter`
 
+!> 代码中的路径不要使用`_dirname`, 打包的时候就会出错, 使用`context.extensionPath`代替
+
 ## issue
 
 - 当在 markdown 中选中一段文字的时候, 会与 markdown all in one 冲突, 它会屏蔽当前的插件

@@ -1,14 +1,11 @@
-const scriptDir = __dirname;
 const spawn = require("child_process").spawn;
 const path = require("path");
 const vscode = require("vscode");
 const fs = require("fs");
-const testImgScript = path.join(scriptDir, "winTestImage.ps1");
-const saveImgScriptName = "winPNGfromClipboard.ps1";
-const saveImgScript = path.join(scriptDir, saveImgScriptName);
+const config = require("../config.js");
 
 async function isImage() {
-  let powershell = spawn("powershell", [testImgScript]);
+  let powershell = spawn("powershell", [config.testImgScript]);
   let data = "";
   for await (const chunk of powershell.stdout) {
     data += chunk;
@@ -35,7 +32,7 @@ async function saveImage(fileDir, fileName) {
   if (platform == "win32") {
     spawn(
       "powershell",
-      ["-executionpolicy", "ByPass", "-File", saveImgScript, fileName],
+      ["-executionpolicy", "ByPass", "-File", config.saveImgScript, fileName],
       {
         cwd: fileDir,
       }
@@ -45,15 +42,21 @@ async function saveImage(fileDir, fileName) {
     // powershell 不能识别wsl的路径, 所以先转到ps1脚本工作, 然后移动文件到目标文件夹下
     spawn(
       "powershell.exe",
-      ["-executionpolicy", "ByPass", "-File", saveImgScriptName, fileName],
+      [
+        "-executionpolicy",
+        "ByPass",
+        "-File",
+        config.saveImgScriptName,
+        fileName,
+      ],
       {
-        cwd: scriptDir,
+        cwd: config.scriptDir,
       }
     )
       .on("error", (e) => vscode.window.showInformationMessage(e.message))
       .on("close", () =>
         spawn("mv", [fileName, fileDir], {
-          cwd: scriptDir,
+          cwd: config.scriptDir,
         })
       );
   }

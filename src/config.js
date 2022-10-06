@@ -19,11 +19,20 @@ let variablePatterns = [
 ];
 let fileDirConfig;
 let baseDirConfig;
+let scriptDir;
+let testImgScript;
+const saveImgScriptName = "winPNGfromClipboard.ps1";
+let saveImgScript;
+///////////////////////////////////////
 
-function init() {
+function init(context) {
   fileDirConfig = vscode.workspace.getConfiguration("mdPasteEnhanced")["path"];
   baseDirConfig =
     vscode.workspace.getConfiguration("mdPasteEnhanced")["basePath"];
+  let extensionPath = context.extensionPath;
+  scriptDir = path.join(extensionPath, "./src/clipboard/");
+  testImgScript = path.join(scriptDir, "winTestImage.ps1");
+  saveImgScript = path.join(scriptDir, saveImgScriptName);
 }
 
 function calcPathVariables(patternString) {
@@ -35,6 +44,16 @@ function calcPathVariables(patternString) {
 
 module.exports = {
   init,
+  get scriptDir() {
+    return scriptDir;
+  },
+  get testImgScript() {
+    return testImgScript;
+  },
+  saveImgScriptName,
+  get saveImgScript() {
+    return saveImgScript;
+  },
   get fileDir() {
     return calcPathVariables(fileDirConfig);
   },
