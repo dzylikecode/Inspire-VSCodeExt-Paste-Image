@@ -37,27 +37,29 @@ use `ctrl + v` to paste images from the clipboard when writing markdown.
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
+### 0.1.0
 
-### 0.0.1
+compress the size of extension from 1 MB to 61.6KB
 
-Initial release
+### 0.0.5
 
-### 0.0.2
-
-remove annoying notification and docs in extensions
-
-### 0.0.3
-
-fix: Paste link without selection will trigger the paste function of `Markdown All in One`
+fix: PowerShell Script is not digitally signed
 
 ### 0.0.4
 
 fix: error link in README.md
 
-### 0.0.5
+### 0.0.3
 
-fix: PowerShell Script is not digitally signed
+fix: Paste link without selection will trigger the paste function of `Markdown All in One`
+
+### 0.0.2
+
+remove annoying notification and docs in extensions
+
+### 0.0.1
+
+Initial release
 
 ---
 
