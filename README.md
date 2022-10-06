@@ -37,9 +37,15 @@ use `ctrl + v` to paste images from the clipboard when writing markdown.
 
 ## Release Notes
 
+## 0.2.0
+
+fix bug: wrong path of powershell script
+
 ### 0.1.0
 
 compress the size of extension from 1 MB to 61.6KB
+
+> can't work because of wrong path of powershell script
 
 ### 0.0.5
 
