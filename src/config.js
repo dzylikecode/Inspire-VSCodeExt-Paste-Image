@@ -44,7 +44,9 @@ function calcPathVariables(patternString) {
 
 module.exports = {
   init,
-  scriptDir,
+  get scriptDir() {
+    return scriptDir;
+  },
   get testImgScript() {
     return testImgScript;
   },

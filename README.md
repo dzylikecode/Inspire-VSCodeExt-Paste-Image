@@ -37,6 +37,12 @@ use `ctrl + v` to paste images from the clipboard when writing markdown.
 
 ## Release Notes
 
+## 0.3.0
+
+fix bug: wrong path in WSL
+
+> bugs drive me crazy 😭 😭 😭
+
 ## 0.2.0
 
 fix bug: wrong path of powershell script
