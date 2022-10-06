@@ -3,7 +3,7 @@
 - market: https://marketplace.visualstudio.com/items?itemName=dzylikecode.md-paste-enhanced
 - online docs: https://dzylikecode.github.io/Inspire-VSCodeExt-Paste-Image/#/
 
-Who can help me write the docs? :sob: :sob: :sob:
+Who can help me write the docs? 😭 😭 😭
 
 It works the same as [Paste Image](https://marketplace.visualstudio.com/items?itemName=mushan.vscode-paste-image) does. What I focus on is to make it work well on WSL and Windows and to use `ctrl + v` to paste images instead of `ctrl + alt + v`.
 
@@ -77,6 +77,6 @@ Initial release
 
 ## more feature
 
-If you want more feature, for example, make it work on Mac and Linux, Please open an issue or pull request. :smirk: :smirk: :smirk:
+If you want more feature, for example, make it work on Mac and Linux, Please open an issue or pull request. 😏 😏 😏
 
-**Enjoy!** :blush: :blush: :blush:
+**Enjoy!** 😊 😊 😊
