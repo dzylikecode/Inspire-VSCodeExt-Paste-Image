@@ -13,7 +13,7 @@ let variablePatterns = [
   {
     pattern: /\$\{projectRoot\}/g,
     get value() {
-      return vscode.workspace.workspaceFolders;
+      return vscode.workspace.workspaceFolders[0].uri.fsPath;
     },
   },
 ];

@@ -37,6 +37,10 @@ use `ctrl + v` to paste images from the clipboard when writing markdown.
 
 ## Release Notes
 
+## 1.0.0
+
+fix: errors in license and something wrong with project path
+
 ## 0.3.0
 
 fix bug: wrong path in WSL
@@ -49,7 +53,7 @@ fix bug: wrong path of powershell script
 
 ### 0.1.0
 
-compress the size of extension from 1 MB to 61.6KB
+compress the size of extension from 1 MB to 35.89KB
 
 > can't work because of wrong path of powershell script
 
