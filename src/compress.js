@@ -10,11 +10,16 @@ const fs = require("fs");
 
 let imagemin;
 const imageminPngout = require("../imagemin-pngout");
+const imageminPngquant = require("../imagemin-pngquant");
 
 async function compressPNG(destDir, sourceFileList) {
   await imagemin(sourceFileList, {
     destination: destDir,
-    plugins: [imageminPngout()],
+    plugins: [
+      imageminPngquant({
+        quality: [0.6, 0.8],
+      }),
+    ],
   });
   console.log("Images optimized");
 }
