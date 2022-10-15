@@ -5,6 +5,7 @@ const clipboard = require("./clipboard/clipboard.js");
 const moment = require("moment");
 const fs = require("fs");
 const path = require("path");
+const compress = require("./compress.js");
 
 async function main() {
   let clipContent = await vscode.env.clipboard.readText(); // 提升速度, 有文件则不用判断是否为图片
@@ -27,11 +28,13 @@ async function main() {
   }
 }
 
-function pasteImage() {
+async function pasteImage() {
   let fileName = getFileName() + ".png";
   let fileDir = getFileDir();
-  let filePath = saveImage(fileDir, fileName);
-  render(config.baseDir, filePath);
+  let filePath = path.join(fileDir, fileName);
+  render(config.baseDir, filePath); // 先渲染出来
+  let savePath = await saveImage(fileDir, fileName);
+  compressFile(fileDir, savePath);
 }
 
 function getFileName() {
@@ -59,8 +62,7 @@ function getFileDir() {
 
 function saveImage(fileDir, fileName) {
   mkdir(fileDir);
-  clipboard.saveImage(fileDir, fileName);
-  return path.join(fileDir, fileName);
+  return clipboard.saveImage(fileDir, fileName);
   function mkdir(path) {
     if (!fs.existsSync(path)) {
       fs.mkdirSync(path, { recursive: true });
@@ -94,6 +96,16 @@ class PluginError {
     this.message = message;
     this.name = "PluginError";
   }
+}
+
+async function compressFile(destDir, sourceFile) {
+  let fileSize = compress.getFilesizeInBytes(sourceFile);
+  console.log("fileSize", fileSize);
+  await compress.compressPNG(destDir, [sourceFile]);
+  let fileName = path.basename(sourceFile);
+  let destFile = path.join(destDir, fileName);
+  fileSize = compress.getFilesizeInBytes(destFile);
+  console.log("fileSize", fileSize);
 }
 
 module.exports = {

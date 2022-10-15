@@ -25,7 +25,8 @@ function Clipboard() {
         return;
       }
     }
-    this.saveImageCore(fileDir, fileName);
+    await this.saveImageCore(fileDir, fileName);
+    return filePath;
   };
 }
 async function isImageWin() {
@@ -40,31 +41,43 @@ async function isImageWin() {
   return true;
 }
 
-async function saveImageWin(fileDir, fileName) {
-  spawn(
-    "powershell",
-    ["-executionpolicy", "ByPass", "-File", config.saveImgScript, fileName],
-    {
-      cwd: fileDir,
-    }
-  ).on("error", (e) => vscode.window.showInformationMessage(e.message));
+function saveImageWin(fileDir, fileName) {
+  return new Promise((resolve, reject) => {
+    spawn(
+      "powershell",
+      ["-executionpolicy", "ByPass", "-File", config.saveImgScript, fileName],
+      {
+        cwd: fileDir,
+      }
+    )
+      .on("error", (e) => vscode.window.showInformationMessage(e.message))
+      .on("close", resolve);
+  });
 }
 
-async function saveImageWSL(fileDir, fileName) {
+function saveImageWSL(fileDir, fileName) {
   // powershell 不能识别wsl的路径, 所以先转到ps1脚本工作, 然后移动文件到目标文件夹下
-  spawn(
-    "powershell.exe",
-    ["-executionpolicy", "ByPass", "-File", config.saveImgScriptName, fileName],
-    {
-      cwd: config.scriptDir,
-    }
-  )
-    .on("error", (e) => vscode.window.showInformationMessage(e.message))
-    .on("close", () =>
-      spawn("mv", [fileName, fileDir], {
+  return new Promise((resolve, reject) => {
+    spawn(
+      "powershell.exe",
+      [
+        "-executionpolicy",
+        "ByPass",
+        "-File",
+        config.saveImgScriptName,
+        fileName,
+      ],
+      {
         cwd: config.scriptDir,
-      })
-    );
+      }
+    )
+      .on("error", (e) => vscode.window.showInformationMessage(e.message))
+      .on("close", () =>
+        spawn("mv", [fileName, fileDir], {
+          cwd: config.scriptDir,
+        }).on("close", resolve)
+      );
+  });
 }
 
 module.exports = new Clipboard();
