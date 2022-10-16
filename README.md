@@ -13,29 +13,58 @@ use `ctrl + v` to paste images from the clipboard when writing markdown.
 
 ## Extension Settings
 
-- `pasteImage.path`
+- `pasteImage.path`:string
 
   The destination to save image file.
 
+  - `default`: `${currentFileDir}/assets`
+
   You can use variable:
 
   - `${currentFileDir}`: the path of directory that contain current editing file.
   - `${projectRoot}`: the path of the project opened in vscode.
 
-- `pasteImage.basePath`
+- `pasteImage.basePath`:string
 
   The base path of image url.
 
+  - `default`: `${currentFileDir}`
+
   You can use variable:
 
   - `${currentFileDir}`: the path of directory that contain current editing file.
   - `${projectRoot}`: the path of the project opened in vscode.
+
+- `mdPasteEnhanced.compressEnable`:boolean
+
+  Whether to compress the image.
+
+  - `default`: false
+
+- `mdPasteEnhanced.compressThreshold`:number
+
+  Unit: KB
+
+  the value which is used to determine whether the image need to be compressed.
+
+  - `default`: 80
 
 ## Known Issues
 
 > The plugin [`Markdown All in One`](https://github.com/yzhang-gh/vscode-markdown) will block the function that you paste image when selecting text. It's better to remove the condition that triggers paste `ctrl+v` in the shortcut settings of [`Markdown All in One`](https://github.com/yzhang-gh/vscode-markdown). Don't worry, this plugin will call the paste function of [`Markdown All in One`](https://github.com/yzhang-gh/vscode-markdown). I just think it's a bit of a hassle, why they can't work together without realizing the exsistence of each other.
 
 ## Release Notes
+
+## 2.0.0
+
+feature:
+
+- support different image type:
+
+  - .png
+  - .jpg
+
+- support to set the threshold which is used to determine whether the image need to be compressed.
 
 ## 1.0.0
 
