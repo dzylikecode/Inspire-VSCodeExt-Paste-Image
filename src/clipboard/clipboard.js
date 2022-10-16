@@ -3,8 +3,33 @@ const path = require("path");
 const vscode = require("vscode");
 const fs = require("fs");
 const config = require("../config.js");
-
-async function isImage() {
+const isWsl = require("is-wsl");
+function Clipboard() {
+  const platform = process.platform;
+  if (platform == "win32") {
+    this.isImage = isImageWin;
+    this.saveImageCore = saveImageWin;
+  } else if (isWsl) {
+    this.isImage = isImageWin;
+    this.saveImageCore = saveImageWSL;
+  }
+  this.saveImage = async (fileDir, fileName) => {
+    let filePath = path.join(fileDir, fileName);
+    if (fs.existsSync(filePath)) {
+      let choose = await vscode.window.showInformationMessage(
+        `File ${filePath} existed.Would you want to replace?`,
+        "Replace",
+        "Cancel"
+      );
+      if (choose == "Cancel") {
+        return;
+      }
+    }
+    await this.saveImageCore(fileDir, fileName);
+    return filePath;
+  };
+}
+async function isImageWin() {
   let powershell = spawn("powershell", [config.testImgScript]);
   let data = "";
   for await (const chunk of powershell.stdout) {
@@ -16,30 +41,23 @@ async function isImage() {
   return true;
 }
 
-async function saveImage(fileDir, fileName) {
-  let filePath = path.join(fileDir, fileName);
-  if (fs.existsSync(filePath)) {
-    let choose = await vscode.window.showInformationMessage(
-      `File ${filePath} existed.Would you want to replace?`,
-      "Replace",
-      "Cancel"
-    );
-    if (choose == "Cancel") {
-      return;
-    }
-  }
-  let platform = process.platform;
-  if (platform == "win32") {
+function saveImageWin(fileDir, fileName) {
+  return new Promise((resolve, reject) => {
     spawn(
       "powershell",
       ["-executionpolicy", "ByPass", "-File", config.saveImgScript, fileName],
       {
         cwd: fileDir,
       }
-    ).on("error", (e) => vscode.window.showInformationMessage(e.message));
-  } else if (platform == "linux") {
-    // 可以使用 wsl.exe 测试是否是 wsl, 以区分真正的Linux
-    // powershell 不能识别wsl的路径, 所以先转到ps1脚本工作, 然后移动文件到目标文件夹下
+    )
+      .on("error", (e) => vscode.window.showInformationMessage(e.message))
+      .on("close", resolve);
+  });
+}
+
+function saveImageWSL(fileDir, fileName) {
+  // powershell 不能识别wsl的路径, 所以先转到ps1脚本工作, 然后移动文件到目标文件夹下
+  return new Promise((resolve, reject) => {
     spawn(
       "powershell.exe",
       [
@@ -57,12 +75,9 @@ async function saveImage(fileDir, fileName) {
       .on("close", () =>
         spawn("mv", [fileName, fileDir], {
           cwd: config.scriptDir,
-        })
+        }).on("close", resolve)
       );
-  }
+  });
 }
 
-module.exports = {
-  isImage,
-  saveImage,
-};
+module.exports = new Clipboard();
