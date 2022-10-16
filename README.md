@@ -55,6 +55,10 @@ use `ctrl + v` to paste images from the clipboard when writing markdown.
 
 ## Release Notes
 
+### 2.1.0
+
+fix: can't work because of bundling the extension
+
 ### 2.0.0
 
 feature:
