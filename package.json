@@ -36,7 +36,7 @@
   "activationEvents": [
     "onCommand:md-paste-enhanced.paste"
   ],
-  "main": "./src/extension.js",
+  "main": "./out/extension.js",
   "contributes": {
     "configuration": {
       "title": "Markdown-Paste-Enhanced",
@@ -92,7 +92,7 @@
     "pretest": "npm run lint",
     "test": "node ./test/runTest.js",
     "vscode:prepublish": "npm run esbuild-base -- --minify",
-    "esbuild-base": "esbuild ./src/extension.js --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node",
+    "esbuild-base": "esbuild ./src/extension.js --bundle --outfile=out/extension.js --external:vscode --external:../imagemin-pngquant --external:../imagemin-jpegtran --external:../jpegtran-bin-linux --external:../jpegtran-bin-win --external:../pngout-bin-linux --external:../pngout-bin-win --format=cjs --platform=node",
     "esbuild": "npm run esbuild-base -- --sourcemap",
     "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
     "test-compile": "tsc -p ./"

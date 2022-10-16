@@ -4,7 +4,7 @@ const fs = require("fs");
 // https://github.com/imagemin/imagemin-pngout
 
 let imagemin;
-const imageminPngout = require("../imagemin-pngout");
+// const imageminPngout = require("../imagemin-pngout");
 const imageminPngquant = require("../imagemin-pngquant");
 const imageminJpegtran = require("../imagemin-jpegtran");
 
