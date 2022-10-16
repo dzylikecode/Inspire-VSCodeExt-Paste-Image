@@ -55,7 +55,7 @@ use `ctrl + v` to paste images from the clipboard when writing markdown.
 
 ## Release Notes
 
-## 2.0.0
+### 2.0.0
 
 feature:
 
@@ -66,17 +66,17 @@ feature:
 
 - support to set the threshold which is used to determine whether the image need to be compressed.
 
-## 1.0.0
+### 1.0.0
 
 fix: errors in license and something wrong with project path
 
-## 0.3.0
+### 0.3.0
 
 fix bug: wrong path in WSL
 
 > bugs drive me crazy 😭 😭 😭
 
-## 0.2.0
+### 0.2.0
 
 fix bug: wrong path of powershell script
 
