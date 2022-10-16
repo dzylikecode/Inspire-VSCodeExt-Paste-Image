@@ -2,7 +2,7 @@
   "name": "md-paste-enhanced",
   "displayName": "markdown paste enhanced",
   "description": "use ctrl+v to paste image directly in markdown",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "engines": {
     "vscode": "^1.71.0"
   },
@@ -90,7 +90,8 @@
   "scripts": {
     "lint": "eslint .",
     "pretest": "npm run lint",
-    "test": "node ./test/runTest.js"
+    "test": "node ./test/runTest.js",
+    "imagemin": "esbuild ./imagemin/index.js --bundle --outfile=out/imagemin.js"
   },
   "devDependencies": {
     "@types/glob": "^7.2.0",

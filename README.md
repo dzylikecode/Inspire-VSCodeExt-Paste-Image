@@ -55,9 +55,15 @@ use `ctrl + v` to paste images from the clipboard when writing markdown.
 
 ## Release Notes
 
+### 2.2.0
+
+fix: can't work because of import third lib failed 😭 😭 😭
+
 ### 2.1.0
 
 fix: can't work because of bundling the extension
+
+> not work
 
 ### 2.0.0
 
@@ -69,6 +75,8 @@ feature:
   - .jpg
 
 - support to set the threshold which is used to determine whether the image need to be compressed.
+
+> not work
 
 ### 1.0.0
 
