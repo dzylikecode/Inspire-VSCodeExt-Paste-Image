@@ -7,7 +7,8 @@ const fs = require("fs");
 const path = require("path");
 const compress = require("./compress.js");
 
-async function main() {
+async function main(context) {
+  config.init(context);
   let clipContent = await vscode.env.clipboard.readText(); // 提升速度, 有文件则不用判断是否为图片
   if (clipContent == "" && (await clipboard.isImage())) {
     try {
@@ -29,12 +30,17 @@ async function main() {
 }
 
 async function pasteImage() {
-  let fileName = getFileName() + ".png";
+  let fileName = getFileName() + config.fileExt;
   let fileDir = getFileDir();
   let filePath = path.join(fileDir, fileName);
   render(config.baseDir, filePath); // 先渲染出来
   let savePath = await saveImage(fileDir, fileName);
-  compressFile(fileDir, savePath);
+  if (config.compressEnable) {
+    let fileSize = compress.getFilesizeInBytes(savePath);
+    if (fileSize > config.compressThreshold) {
+      compressFile(fileDir, savePath);
+    }
+  }
 }
 
 function getFileName() {
@@ -100,8 +106,9 @@ class PluginError {
 
 async function compressFile(destDir, sourceFile) {
   let fileSize = compress.getFilesizeInBytes(sourceFile);
+  console.log(config.fileExt);
   console.log("fileSize", fileSize);
-  await compress.compressPNG(destDir, [sourceFile]);
+  await compress.compressIMG(destDir, [sourceFile]);
   let fileName = path.basename(sourceFile);
   let destFile = path.join(destDir, fileName);
   fileSize = compress.getFilesizeInBytes(destFile);

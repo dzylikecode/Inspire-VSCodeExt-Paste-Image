@@ -21,9 +21,14 @@ let fileDirConfig;
 let baseDirConfig;
 let scriptDir;
 let testImgScript;
-const saveImgScriptName = "winPNGfromClipboard.ps1";
+let saveImgScriptName;
+const pngImgScriptName = "winPNGfromClipboard.ps1";
+const jpgImgScriptName = "winJPGfromClipboard.ps1";
 let saveImgScript;
 let extensionPath;
+let fileExt;
+let compressEnable;
+let compressThreshold;
 ///////////////////////////////////////
 
 function init(context) {
@@ -32,8 +37,26 @@ function init(context) {
     vscode.workspace.getConfiguration("mdPasteEnhanced")["basePath"];
   extensionPath = context.extensionPath;
   scriptDir = path.join(extensionPath, "./src/clipboard/");
+  fileExt = vscode.workspace.getConfiguration("mdPasteEnhanced")["ImageType"];
+  switch (fileExt) {
+    case ".png":
+      saveImgScriptName = pngImgScriptName;
+      break;
+    case ".jpg":
+      saveImgScriptName = jpgImgScriptName;
+      break;
+    default:
+      vscode.window.showErrorMessage(`Invalid file extension: ${fileExt}`);
+      throw new Error(`Invalid file extension: ${fileExt}`);
+      break;
+  }
   testImgScript = path.join(scriptDir, "winTestImage.ps1");
   saveImgScript = path.join(scriptDir, saveImgScriptName);
+  compressEnable =
+    vscode.workspace.getConfiguration("mdPasteEnhanced")["compressEnable"];
+  compressThreshold =
+    vscode.workspace.getConfiguration("mdPasteEnhanced")["compressThreshold"] *
+    1024;
 }
 
 function calcPathVariables(patternString) {
@@ -51,7 +74,9 @@ module.exports = {
   get testImgScript() {
     return testImgScript;
   },
-  saveImgScriptName,
+  get saveImgScriptName() {
+    return saveImgScriptName;
+  },
   get saveImgScript() {
     return saveImgScript;
   },
@@ -63,5 +88,14 @@ module.exports = {
   },
   get extensionPath() {
     return extensionPath;
+  },
+  get fileExt() {
+    return fileExt;
+  },
+  get compressEnable() {
+    return compressEnable;
+  },
+  get compressThreshold() {
+    return compressThreshold;
   },
 };
