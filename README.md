@@ -57,7 +57,11 @@ use `ctrl + v` to paste images from the clipboard when writing markdown.
 
 ### 2.2.0
 
-fix: can't work because of import third lib failed 😭 😭 😭
+now, it can work
+
+fix: can't work because of import third lib failed
+
+> it drives me crazy again 😭 😭 😭
 
 ### 2.1.0
 
