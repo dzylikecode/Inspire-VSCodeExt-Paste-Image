@@ -109,7 +109,11 @@ async function compressFile(destDir, sourceFile) {
   let fileSize = compress.getFilesizeInBytes(sourceFile);
   logger.log(sourceFile);
   logger.log(`before fileSize: ${fileSize}`);
-  await compress.compressIMG(destDir, [sourceFile]);
+  try {
+    await compress.compressIMG(destDir, [sourceFile]);
+  } catch (e) {
+    logger.log(e);
+  }
   let fileName = path.basename(sourceFile);
   let destFile = path.join(destDir, fileName);
   fileSize = compress.getFilesizeInBytes(destFile);

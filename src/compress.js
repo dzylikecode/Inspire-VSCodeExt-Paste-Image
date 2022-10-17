@@ -1,12 +1,15 @@
+/*jslint esversion:11 */
+
 const fs = require("fs");
 // https://github.com/imagemin/imagemin-pngout
 
 // const imageminPngout = require("../imagemin-pngout");
 const imageminPngquant = require("../imagemin-pngquant");
 const imageminJpegtran = require("../imagemin-jpegtran");
+const logger = require("./logger.js");
+const imagemin = require("../imagemin-dist/imagemin.js").default;
 
 async function compressIMG(destDir, sourceFileList) {
-  const { default: imagemin } = await import("imagemin");
   await imagemin(sourceFileList, {
     destination: destDir,
     plugins: [
@@ -16,7 +19,6 @@ async function compressIMG(destDir, sourceFileList) {
       imageminJpegtran(),
     ],
   });
-  console.log("Images optimized");
 }
 
 function getFilesizeInBytes(filename) {
