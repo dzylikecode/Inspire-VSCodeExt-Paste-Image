@@ -6,6 +6,7 @@ const moment = require("moment");
 const fs = require("fs");
 const path = require("path");
 const compress = require("./compress.js");
+const logger = require("./logger.js");
 
 async function main(context) {
   config.init(context);
@@ -106,13 +107,13 @@ class PluginError {
 
 async function compressFile(destDir, sourceFile) {
   let fileSize = compress.getFilesizeInBytes(sourceFile);
-  console.log(config.fileExt);
-  console.log("fileSize", fileSize);
+  logger.log(sourceFile);
+  logger.log(`before fileSize: ${fileSize}`);
   await compress.compressIMG(destDir, [sourceFile]);
   let fileName = path.basename(sourceFile);
   let destFile = path.join(destDir, fileName);
   fileSize = compress.getFilesizeInBytes(destFile);
-  console.log("fileSize", fileSize);
+  logger.log(`after fileSize: ${fileSize}`);
 }
 
 module.exports = {
