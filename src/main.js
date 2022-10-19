@@ -83,7 +83,7 @@ function render(basePath, filePath) {
     filePath = path.relative(basePath, filePath).replace(/\\/g, "/");
   }
   filePath = encodeURI(filePath);
-  let imageLink = `![](${filePath})`;
+  let imageLink = getImageLink(filePath);
   // vscode.env.clipboard.writeText(imageLink); // 似乎会打断saveImage的执行, 提早改变剪切板, 除非用await
   // vscode.commands.executeCommand("editor.action.clipboardPasteAction");
   let editor = vscode.window.activeTextEditor;
@@ -96,6 +96,16 @@ function render(basePath, filePath) {
       edit.replace(current, imageLink);
     }
   });
+  return;
+  function getImageLink(imagePath) {
+    let renderPattern = config.renderPattern;
+    return replaceVariables(renderPattern);
+    function replaceVariables(pattern) {
+      return pattern.replace(/\$\{imagePath\}/g, (match, src) => {
+        return imagePath;
+      });
+    }
+  }
 }
 
 class PluginError {
