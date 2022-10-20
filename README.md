@@ -55,6 +55,10 @@ use `ctrl + v` to paste images from the clipboard when writing markdown.
 
 ## Release Notes
 
+### 2.4.0
+
+- feature: custom render pattern
+
 ### 2.3.0
 
 compress image successfully

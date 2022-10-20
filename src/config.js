@@ -98,4 +98,9 @@ module.exports = {
   get compressThreshold() {
     return compressThreshold;
   },
+  get renderPattern() {
+    return vscode.workspace.getConfiguration("mdPasteEnhanced")[
+      "renderPattern"
+    ];
+  },
 };
