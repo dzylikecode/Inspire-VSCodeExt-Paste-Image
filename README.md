@@ -13,7 +13,7 @@ use `ctrl + v` to paste images from the clipboard when writing markdown.
 
 ## Extension Settings
 
-- `pasteImage.path`:string
+- `mdPasteEnhanced.path`:string
 
   The destination to save image file.
 
@@ -24,7 +24,7 @@ use `ctrl + v` to paste images from the clipboard when writing markdown.
   - `${currentFileDir}`: the path of directory that contain current editing file.
   - `${projectRoot}`: the path of the project opened in vscode.
 
-- `pasteImage.basePath`:string
+- `mdPasteEnhanced.basePath`:string
 
   The base path of image url.
 
@@ -34,6 +34,16 @@ use `ctrl + v` to paste images from the clipboard when writing markdown.
 
   - `${currentFileDir}`: the path of directory that contain current editing file.
   - `${projectRoot}`: the path of the project opened in vscode.
+
+- `mdPasteEnhanced.renderPattern`:string
+
+  The pattern of image url.
+
+  - `default`: `![](${imagePath})`
+
+  You can use variable:
+
+  - `${imagePath}`: the path of image file.
 
 - `mdPasteEnhanced.compressEnable`:boolean
 

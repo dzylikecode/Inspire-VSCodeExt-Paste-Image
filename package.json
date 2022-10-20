@@ -2,7 +2,7 @@
   "name": "md-paste-enhanced",
   "displayName": "markdown paste enhanced",
   "description": "use ctrl+v to paste image directly in markdown",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "engines": {
     "vscode": "^1.71.0"
   },
@@ -56,7 +56,7 @@
         "mdPasteEnhanced.renderPattern": {
           "type": "string",
           "default": "![](${imagePath})",
-          "description": "The base path of image url. The ${imagePath} is the path relative to the base path."
+          "description": "The pattern of image url. The ${imagePath} is the path relative to the base path."
         },
         "mdPasteEnhanced.ImageType": {
           "type": "string",
