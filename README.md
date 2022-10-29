@@ -59,7 +59,7 @@ use `ctrl + v` to paste images from the clipboard when writing markdown.
 
   - `default`: 80
 
-- `mdPasteEnhanced.experiment`: boolean
+- `mdPasteEnhanced.experimentEnable`: boolean
 
   You can try it if you think the plugin works too slowly.
 

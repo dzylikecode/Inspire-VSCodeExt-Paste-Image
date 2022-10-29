@@ -104,6 +104,8 @@ module.exports = {
     ];
   },
   get isExperimented() {
-    return vscode.workspace.getConfiguration("mdPasteEnhanced")["experiment"];
+    return vscode.workspace.getConfiguration("mdPasteEnhanced")[
+      "experimentEnable"
+    ];
   },
 };
