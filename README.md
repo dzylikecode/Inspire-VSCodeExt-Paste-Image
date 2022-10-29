@@ -65,6 +65,10 @@ use `ctrl + v` to paste images from the clipboard when writing markdown.
 
 ## Release Notes
 
+### 2.5.0
+
+see https://github.com/dzylikecode/Inspire-VSCodeExt-Paste-Image/issues/14
+
 ### 2.4.0
 
 - feature: custom render pattern
