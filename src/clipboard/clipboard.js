@@ -63,7 +63,7 @@ function saveImageWSL(fileDir, fileName) {
       [
         "-executionpolicy",
         "ByPass",
-        "-File",
+        // "-File", 不知道为什么这个参数导致我的一台电脑运行很慢, 另一台Levono电脑就没问题
         config.saveImgScriptName,
         fileName,
       ],
