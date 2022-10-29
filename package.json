@@ -2,7 +2,7 @@
   "name": "md-paste-enhanced",
   "displayName": "markdown paste enhanced",
   "description": "use ctrl+v to paste image directly in markdown",
-  "version": "2.5.0",
+  "version": "2.5.1",
   "engines": {
     "vscode": "^1.71.0"
   },
@@ -76,6 +76,11 @@
           "type": "number",
           "default": 80,
           "description": "Threshold value, the image which will be compressed if its size is larger than this value. Unit is KB"
+        },
+        "mdPasteEnhanced.experiment": {
+          "type": "boolean",
+          "default": "false",
+          "description": "You can try it if the plugin works too slowly"
         }
       }
     },

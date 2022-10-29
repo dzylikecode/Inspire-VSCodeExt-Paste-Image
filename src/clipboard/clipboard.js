@@ -57,8 +57,18 @@ function saveImageWin(fileDir, fileName) {
 
 function saveImageWSL(fileDir, fileName) {
   // powershell 不能识别wsl的路径, 所以先转到ps1脚本工作, 然后移动文件到目标文件夹下
+  let command = config.isExperimented ? mainPCCommand : levonoCommand;
   return new Promise((resolve, reject) => {
-    spawn(
+    command()
+      .on("error", (e) => vscode.window.showInformationMessage(e.message))
+      .on("close", () =>
+        spawn("mv", [fileName, fileDir], {
+          cwd: config.scriptDir,
+        }).on("close", resolve)
+      );
+  });
+  function levonoCommand() {
+    return spawn(
       "powershell.exe",
       [
         "-executionpolicy",
@@ -70,14 +80,23 @@ function saveImageWSL(fileDir, fileName) {
       {
         cwd: config.scriptDir,
       }
-    )
-      .on("error", (e) => vscode.window.showInformationMessage(e.message))
-      .on("close", () =>
-        spawn("mv", [fileName, fileDir], {
-          cwd: config.scriptDir,
-        }).on("close", resolve)
-      );
-  });
+    );
+  }
+  function mainPCCommand() {
+    return spawn(
+      "powershell.exe",
+      [
+        "-executionpolicy",
+        "ByPass",
+        // "-File", // 不知道为什么这个参数导致我的一台电脑运行很慢, 另一台Levono电脑就没问题
+        config.saveImgScriptName,
+        fileName,
+      ],
+      {
+        cwd: config.scriptDir,
+      }
+    );
+  }
 }
 
 module.exports = new Clipboard();

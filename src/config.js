@@ -103,4 +103,7 @@ module.exports = {
       "renderPattern"
     ];
   },
+  get isExperimented() {
+    return vscode.workspace.getConfiguration("mdPasteEnhanced")["experiment"];
+  },
 };
