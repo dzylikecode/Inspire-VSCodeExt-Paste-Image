@@ -10,7 +10,7 @@ function Clipboard() {
     this.isImage = isImageWin;
     this.saveImageCore = saveImageWin;
   } else if (isWsl) {
-    this.isImage = isImageWin;
+    this.isImage = isImageWSL;
     this.saveImageCore = saveImageWSL;
   }
   this.saveImage = async (fileDir, fileName) => {
@@ -29,8 +29,26 @@ function Clipboard() {
     return filePath;
   };
 }
+
 async function isImageWin() {
   let powershell = spawn("powershell", [config.testImgScript]);
+  let data = "";
+  for await (const chunk of powershell.stdout) {
+    data += chunk;
+  }
+  if (data[0] == "0") {
+    return false;
+  }
+  return true;
+}
+
+// 由于执行速度的问题, 将脚本压缩为命令行形式
+async function isImageWSL() {
+  let powershell = spawn("powershell.exe", [
+    "-noprofile",
+    "-command",
+    "if(Get-Clipboard -Format Image){1}else{0}",
+  ]);
   let data = "";
   for await (const chunk of powershell.stdout) {
     data += chunk;
@@ -57,9 +75,18 @@ function saveImageWin(fileDir, fileName) {
 
 function saveImageWSL(fileDir, fileName) {
   // powershell 不能识别wsl的路径, 所以先转到ps1脚本工作, 然后移动文件到目标文件夹下
-  let command = config.isExperimented ? mainPCCommand : levonoCommand;
   return new Promise((resolve, reject) => {
-    command()
+    spawn(
+      "powershell.exe",
+      [
+        "-noprofile",
+        "-command",
+        `(Get-Clipboard -Format Image).save("${fileName}")`,
+      ],
+      {
+        cwd: config.scriptDir,
+      }
+    )
       .on("error", (e) => vscode.window.showInformationMessage(e.message))
       .on("close", () =>
         spawn("mv", [fileName, fileDir], {
@@ -67,36 +94,6 @@ function saveImageWSL(fileDir, fileName) {
         }).on("close", resolve)
       );
   });
-  function levonoCommand() {
-    return spawn(
-      "powershell.exe",
-      [
-        "-executionpolicy",
-        "ByPass",
-        "-File", // 不知道为什么这个参数导致我的一台电脑运行很慢, 另一台Levono电脑就没问题
-        config.saveImgScriptName,
-        fileName,
-      ],
-      {
-        cwd: config.scriptDir,
-      }
-    );
-  }
-  function mainPCCommand() {
-    return spawn(
-      "powershell.exe",
-      [
-        "-executionpolicy",
-        "ByPass",
-        // "-File", // 不知道为什么这个参数导致我的一台电脑运行很慢, 另一台Levono电脑就没问题
-        config.saveImgScriptName,
-        fileName,
-      ],
-      {
-        cwd: config.scriptDir,
-      }
-    );
-  }
 }
 
 module.exports = new Clipboard();
