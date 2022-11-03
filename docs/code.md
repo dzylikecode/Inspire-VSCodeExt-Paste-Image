@@ -45,6 +45,16 @@
 
 - 不知道如何打包, 似乎发布插件的时候, 它提示我的 js 文件过多
 
+### WSL 保存图片过长
+
+原因是加载 powershell script 过长, 如果直接使用命令行, 速度就很快
+
+详细参见: [#15](https://github.com/dzylikecode/Inspire-VSCodeExt-Paste-Image/pull/15) 和 [#14](https://github.com/dzylikecode/Inspire-VSCodeExt-Paste-Image/issues/14)
+
+- `#15`
+
+  有基本的解决方法
+
 ## 心得
 
 > 借鉴一些有用的想法, 不必完全照抄, 等价实现
