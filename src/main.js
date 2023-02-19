@@ -31,25 +31,25 @@ async function main(context) {
 }
 
 async function pasteImage() {
-  let fileName = getFileName() + config.fileExt;
-  let fileDir = getFileDir();
-  let filePath = path.join(fileDir, fileName);
+  const fileName = await getFileName();
+  const fileDir = getFileDir();
+  const filePath = path.join(fileDir, fileName);
   render(config.baseDir, filePath); // 先渲染出来
-  let savePath = await saveImage(fileDir, fileName);
+  const savePath = await saveImage(fileDir, fileName);
   if (config.compressEnable) {
-    let fileSize = compress.getFilesizeInBytes(savePath);
+    const fileSize = compress.getFilesizeInBytes(savePath);
     if (fileSize > config.compressThreshold) {
       compressFile(fileDir, savePath);
     }
   }
 }
 
-function getFileName() {
+function getDefaultName() {
   return getSelectText() || getDateName();
 
   function getSelectText() {
-    let editor = vscode.window.activeTextEditor;
-    let selectText = editor.document.getText(editor.selection);
+    const editor = vscode.window.activeTextEditor;
+    const selectText = editor.document.getText(editor.selection);
     const validName = /[\\:*?<>|]/;
     // 如果有选中文字, 则需要判断是否合法
     if (selectText && validName.test(selectText)) {
@@ -61,6 +61,21 @@ function getFileName() {
   function getDateName() {
     return moment().format("Y-MM-DD-HH-mm-ss");
   }
+}
+
+function getConfirmName(defaultName) {
+  return vscode.window.showInputBox({
+    prompt: "Please input file name",
+    value: defaultName,
+  });
+}
+
+async function getFileName() {
+  const defaultName = getDefaultName();
+  const name = config.showFilePathConfirmInputBox
+    ? await getConfirmName(defaultName)
+    : defaultName;
+  return name + config.fileExt;
 }
 
 function getFileDir() {
