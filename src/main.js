@@ -1,12 +1,11 @@
 const vscode = require("vscode");
 const config = require("./config.js");
 const clipboard = require("./clipboard/clipboard.js");
-// const clipboard = require("./clipboard/clipboard.js"); es6 module not supported
-const moment = require("moment");
 const fs = require("fs");
 const path = require("path");
 const compress = require("./compress.js");
 const logger = require("./logger.js");
+const getFullPath = require("./getFullPath.js");
 
 async function main(context) {
   config.init(context);
@@ -31,9 +30,8 @@ async function main(context) {
 }
 
 async function pasteImage() {
-  const fileName = await getFileName();
-  const fileDir = getFileDir();
-  const filePath = path.join(fileDir, fileName);
+  const filePath = await getFullPath(config.confirmPattern);
+  const { dir: fileDir, base: fileName } = path.parse(filePath);
   render(config.baseDir, filePath); // 先渲染出来
   const savePath = await saveImage(fileDir, fileName);
   if (config.compressEnable) {
@@ -42,44 +40,6 @@ async function pasteImage() {
       compressFile(fileDir, savePath);
     }
   }
-}
-
-function getDefaultName() {
-  return getSelectText() || getDateName();
-
-  function getSelectText() {
-    const editor = vscode.window.activeTextEditor;
-    const selectText = editor.document.getText(editor.selection);
-    const validName = /[\\:*?<>|]/;
-    // 如果有选中文字, 则需要判断是否合法
-    if (selectText && validName.test(selectText)) {
-      throw new PluginError("Invalid file name");
-    }
-    return selectText;
-  }
-
-  function getDateName() {
-    return moment().format("Y-MM-DD-HH-mm-ss");
-  }
-}
-
-function getConfirmName(defaultName) {
-  return vscode.window.showInputBox({
-    prompt: "Please input file name",
-    value: defaultName,
-  });
-}
-
-async function getFileName() {
-  const defaultName = getDefaultName();
-  const name = config.showFilePathConfirmInputBox
-    ? await getConfirmName(defaultName)
-    : defaultName;
-  return name + config.fileExt;
-}
-
-function getFileDir() {
-  return config.fileDir;
 }
 
 function saveImage(fileDir, fileName) {
@@ -120,13 +80,6 @@ function render(basePath, filePath) {
         return imagePath;
       });
     }
-  }
-}
-
-class PluginError {
-  constructor(message) {
-    this.message = message;
-    this.name = "PluginError";
   }
 }
 
