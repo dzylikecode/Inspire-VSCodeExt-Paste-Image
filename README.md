@@ -59,11 +59,33 @@ use `ctrl + v` to paste images from the clipboard when writing markdown.
 
   - `default`: 80
 
+- `mdPasteEnhanced.confirmPattern`: enum
+
+  which pattern to be confirmed when paste image
+
+  - `default`: `None`
+
+  - `None`
+
+    won't show confirm dialog
+
+  - `Just Name`
+
+    show dialog with image name to be confirmed
+
+  - `Full Path`
+
+    show dialog with image full path to be confirmed
+
 ## Known Issues
 
 > The plugin [`Markdown All in One`](https://github.com/yzhang-gh/vscode-markdown) will block the function that you paste image when selecting text. It's better to remove the condition that triggers paste `ctrl+v` in the shortcut settings of [`Markdown All in One`](https://github.com/yzhang-gh/vscode-markdown). Don't worry, this plugin will call the paste function of [`Markdown All in One`](https://github.com/yzhang-gh/vscode-markdown). I just think it's a bit of a hassle, why they can't work together without realizing the exsistence of each other.
 
 ## Release Notes
+
+### 2.6.0
+
+see: https://github.com/dzylikecode/Inspire-VSCodeExt-Paste-Image/issues/18
 
 ### 2.5.0
 

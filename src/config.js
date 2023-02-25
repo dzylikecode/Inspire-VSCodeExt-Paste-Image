@@ -29,6 +29,7 @@ let extensionPath;
 let fileExt;
 let compressEnable;
 let compressThreshold;
+let confirmPattern;
 ///////////////////////////////////////
 
 function init(context) {
@@ -57,13 +58,15 @@ function init(context) {
   compressThreshold =
     vscode.workspace.getConfiguration("mdPasteEnhanced")["compressThreshold"] *
     1024;
+  confirmPattern =
+    vscode.workspace.getConfiguration("mdPasteEnhanced")["confirmPattern"];
 }
 
 function calcPathVariables(patternString) {
   for (const pattern of variablePatterns) {
     patternString = patternString.replace(pattern.pattern, pattern.value);
   }
-  return patternString;
+  return path.normalize(patternString);
 }
 
 module.exports = {
@@ -102,5 +105,8 @@ module.exports = {
     return vscode.workspace.getConfiguration("mdPasteEnhanced")[
       "renderPattern"
     ];
+  },
+  get confirmPattern() {
+    return confirmPattern;
   },
 };
