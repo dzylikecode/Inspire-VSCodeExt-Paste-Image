@@ -1,14 +1,12 @@
 const vscode = require("vscode");
 const config = require("./config.js");
-const clipboard = require("./clipboard/index.js");
-const path = require("path");
-const logger = require("./logger.js");
+const clipboard = require("./clipboard");
 const getFullPath = require("./getFullPath.js");
 const render = require("./render.js");
 
 async function main(context) {
   config.init(context);
-  let clipContent = await vscode.env.clipboard.readText(); // 提升速度, 有文件则不用判断是否为图片
+  const clipContent = await vscode.env.clipboard.readText(); // 提升速度, 有文字则不用判断是否为图片
   if (clipContent == "" && (await clipboard.isImage())) {
     try {
       pasteImage();
@@ -31,7 +29,7 @@ async function main(context) {
 async function pasteImage() {
   const filePath = await getFullPath(config.confirmPattern);
   render(config.baseDir, filePath); // 先渲染出来
-  const savePath = await clipboard.saveImage(filePath);
+  await clipboard.saveImage(filePath);
 }
 
 module.exports = {
