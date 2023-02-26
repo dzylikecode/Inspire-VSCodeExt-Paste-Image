@@ -1,5 +1,3 @@
-/*jslint esversion:11 */
-
 const fs = require("fs");
 // https://github.com/imagemin/imagemin-pngout
 

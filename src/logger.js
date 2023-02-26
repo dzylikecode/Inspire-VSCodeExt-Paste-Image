@@ -4,7 +4,7 @@ function Logger() {
   this.channel = vscode.window.createOutputChannel("Paste Image");
   this.log = (msg) => {
     if (this.channel) {
-      let time = moment().format("MM-DD HH:mm:ss");
+      const time = moment().format("MM-DD HH:mm:ss");
       this.channel.appendLine(`[${time}] ${msg}`);
     }
   };
