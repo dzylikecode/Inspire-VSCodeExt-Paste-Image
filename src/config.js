@@ -1,35 +1,12 @@
 const vscode = require("vscode");
 const path = require("path");
 
-let variablePatterns = [
-  {
-    pattern: /\$\{currentFileDir\}/g,
-    get value() {
-      let editor = vscode.window.activeTextEditor;
-      let filePath = editor.document.uri.fsPath;
-      return path.dirname(filePath);
-    },
-  },
-  {
-    pattern: /\$\{projectRoot\}/g,
-    get value() {
-      return vscode.workspace.workspaceFolders[0].uri.fsPath;
-    },
-  },
-];
 let fileDirConfig;
 let baseDirConfig;
-let scriptDir;
-let testImgScript;
-let saveImgScriptName;
-const pngImgScriptName = "winPNGfromClipboard.ps1";
-const jpgImgScriptName = "winJPGfromClipboard.ps1";
-let saveImgScript;
 let extensionPath;
 let fileExt;
 let compressEnable;
 let compressThreshold;
-let confirmPattern;
 ///////////////////////////////////////
 
 function init(context) {
@@ -37,32 +14,41 @@ function init(context) {
   baseDirConfig =
     vscode.workspace.getConfiguration("mdPasteEnhanced")["basePath"];
   extensionPath = context.extensionPath;
-  scriptDir = path.join(extensionPath, "./src/clipboard/");
   fileExt = vscode.workspace.getConfiguration("mdPasteEnhanced")["ImageType"];
   switch (fileExt) {
     case ".png":
-      saveImgScriptName = pngImgScriptName;
       break;
     case ".jpg":
-      saveImgScriptName = jpgImgScriptName;
       break;
     default:
       vscode.window.showErrorMessage(`Invalid file extension: ${fileExt}`);
       throw new Error(`Invalid file extension: ${fileExt}`);
-      break;
   }
-  testImgScript = path.join(scriptDir, "winTestImage.ps1");
-  saveImgScript = path.join(scriptDir, saveImgScriptName);
   compressEnable =
     vscode.workspace.getConfiguration("mdPasteEnhanced")["compressEnable"];
   compressThreshold =
     vscode.workspace.getConfiguration("mdPasteEnhanced")["compressThreshold"] *
     1024;
-  confirmPattern =
-    vscode.workspace.getConfiguration("mdPasteEnhanced")["confirmPattern"];
 }
 
 function calcPathVariables(patternString) {
+  const variablePatterns = [
+    {
+      pattern: /\$\{currentFileDir\}/g,
+      get value() {
+        const editor = vscode.window.activeTextEditor;
+        const filePath = editor.document.uri.fsPath;
+        return path.dirname(filePath);
+      },
+    },
+    {
+      pattern: /\$\{projectRoot\}/g,
+      get value() {
+        return vscode.workspace.workspaceFolders[0].uri.fsPath;
+      },
+    },
+  ];
+
   for (const pattern of variablePatterns) {
     patternString = patternString.replace(pattern.pattern, pattern.value);
   }
@@ -71,18 +57,6 @@ function calcPathVariables(patternString) {
 
 module.exports = {
   init,
-  get scriptDir() {
-    return scriptDir;
-  },
-  get testImgScript() {
-    return testImgScript;
-  },
-  get saveImgScriptName() {
-    return saveImgScriptName;
-  },
-  get saveImgScript() {
-    return saveImgScript;
-  },
   get fileDir() {
     return calcPathVariables(fileDirConfig);
   },
@@ -107,6 +81,8 @@ module.exports = {
     ];
   },
   get confirmPattern() {
-    return confirmPattern;
+    return vscode.workspace.getConfiguration("mdPasteEnhanced")[
+      "confirmPattern"
+    ];
   },
 };

@@ -14,6 +14,8 @@
 
   !> 但是我发现, 通过 powershell 生成的 png 是比 jpg 小的
 
+!> `npm run imagemin`
+
 ## reference
 
 - tutorial for vscode extension
