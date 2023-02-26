@@ -4,4 +4,4 @@ node_modules
 temp/
 .vscode/settings.json
 out/
-imagemin-dist/imagemin.js
+lib/imagemin-dist/imagemin.js

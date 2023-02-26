@@ -4,10 +4,10 @@ const fs = require("fs");
 // https://github.com/imagemin/imagemin-pngout
 
 // const imageminPngout = require("../imagemin-pngout");
-const imageminPngquant = require("../imagemin-pngquant");
-const imageminJpegtran = require("../imagemin-jpegtran");
+const imageminPngquant = require("../lib/imagemin-pngquant");
+const imageminJpegtran = require("../lib/imagemin-jpegtran");
 const logger = require("./logger.js");
-const imagemin = require("../imagemin-dist/imagemin.js").default;
+const imagemin = require("../lib/imagemin-dist/imagemin.js").default;
 
 async function compressIMG(destDir, sourceFileList) {
   await imagemin(sourceFileList, {

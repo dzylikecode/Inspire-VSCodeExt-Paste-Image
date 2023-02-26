@@ -108,7 +108,7 @@
     "vscode:prepublish": "npm run imagemin",
     "pretest": "npm run lint",
     "test": "node ./test/runTest.js",
-    "imagemin": "esbuild imagemin-dist/imagemin/index.js --bundle --outfile=imagemin-dist/imagemin.js --platform=node"
+    "imagemin": "esbuild lib/imagemin-dist/imagemin/index.js --bundle --outfile=lib/imagemin-dist/imagemin.js --platform=node"
   },
   "devDependencies": {
     "@types/glob": "^7.2.0",
