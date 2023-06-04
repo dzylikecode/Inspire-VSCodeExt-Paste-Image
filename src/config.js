@@ -5,8 +5,6 @@ let fileDirConfig;
 let baseDirConfig;
 let extensionPath;
 let fileExt;
-let compressEnable;
-let compressThreshold;
 ///////////////////////////////////////
 
 function init(context) {
@@ -24,11 +22,6 @@ function init(context) {
       vscode.window.showErrorMessage(`Invalid file extension: ${fileExt}`);
       throw new Error(`Invalid file extension: ${fileExt}`);
   }
-  compressEnable =
-    vscode.workspace.getConfiguration("mdPasteEnhanced")["compressEnable"];
-  compressThreshold =
-    vscode.workspace.getConfiguration("mdPasteEnhanced")["compressThreshold"] *
-    1024;
 }
 
 function calcPathVariables(patternString) {
@@ -45,6 +38,22 @@ function calcPathVariables(patternString) {
       pattern: /\$\{projectRoot\}/g,
       get value() {
         return vscode.workspace.workspaceFolders[0].uri.fsPath;
+      },
+    },
+    {
+      pattern: /\$\{currentFileName\}/g,
+      get value() {
+        const editor = vscode.window.activeTextEditor;
+        const filePath = editor.document.uri.fsPath;
+        return path.basename(filePath);
+      },
+    },
+    {
+      pattern: /\$\{currentFileNameWithoutExt\}/g,
+      get value() {
+        const editor = vscode.window.activeTextEditor;
+        const filePath = editor.document.uri.fsPath;
+        return path.basename(filePath, path.extname(filePath));
       },
     },
   ];
@@ -68,12 +77,6 @@ module.exports = {
   },
   get fileExt() {
     return fileExt;
-  },
-  get compressEnable() {
-    return compressEnable;
-  },
-  get compressThreshold() {
-    return compressThreshold;
   },
   get renderPattern() {
     return vscode.workspace.getConfiguration("mdPasteEnhanced")[

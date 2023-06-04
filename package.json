@@ -2,7 +2,7 @@
   "name": "md-paste-enhanced",
   "displayName": "markdown paste enhanced",
   "description": "use ctrl+v to paste image directly in markdown",
-  "version": "2.6.0",
+  "version": "2.7.0",
   "engines": {
     "vscode": "^1.71.0"
   },
@@ -37,7 +37,7 @@
   "activationEvents": [
     "onCommand:md-paste-enhanced.paste"
   ],
-  "main": "./src/extension.js",
+  "main": "./out/extension.js",
   "contributes": {
     "configuration": {
       "title": "Markdown-Paste-Enhanced",
@@ -46,12 +46,12 @@
         "mdPasteEnhanced.path": {
           "type": "string",
           "default": "${currentFileDir}/assets",
-          "description": "The destination to save image file.You can use variable ${currentFileDir} and ${projectRoot}. ${currentFileDir} will be replace by the path of directory that contain current editing file. ${projectRoot} will be replace by path of the project opened in vscode."
+          "description": "The destination to save image file. You can use some variables to customize the path. See More in https://github.com/dzylikecode/Inspire-VSCodeExt-Paste-Image"
         },
         "mdPasteEnhanced.basePath": {
           "type": "string",
           "default": "${currentFileDir}",
-          "description": "The base path of image url.You can use variable ${currentFileDir} and ${projectRoot}. ${currentFileDir} will be replace by the path of directory that contain current editing file. ${projectRoot} will be replace by path of the project opened in vscode. If you set basePath to empty String, it will insert absolute path to file."
+          "description": "The base path of image url. You can use some variables to customize the path. See More in https://github.com/dzylikecode/Inspire-VSCodeExt-Paste-Image"
         },
         "mdPasteEnhanced.renderPattern": {
           "type": "string",
@@ -76,16 +76,6 @@
             ".jpg"
           ],
           "description": "The type of image file you want to save"
-        },
-        "mdPasteEnhanced.compressEnable": {
-          "type": "boolean",
-          "default": false,
-          "description": "whether compress the image or not"
-        },
-        "mdPasteEnhanced.compressThreshold": {
-          "type": "number",
-          "default": 80,
-          "description": "Threshold value, the image which will be compressed if its size is larger than this value. Unit is KB"
         }
       }
     },
@@ -105,10 +95,13 @@
   },
   "scripts": {
     "lint": "eslint .",
-    "vscode:prepublish": "npm run imagemin",
     "pretest": "npm run lint",
     "test": "node ./test/runTest.js",
-    "imagemin": "esbuild lib/imagemin-dist/imagemin/index.js --bundle --outfile=lib/imagemin-dist/imagemin.js --platform=node"
+    "vscode:prepublish": "npm run esbuild-base -- --minify",
+    "esbuild-base": "esbuild ./src/extension.js --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node",
+    "esbuild": "npm run esbuild-base -- --sourcemap",
+    "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
+    "test-compile": "tsc -p ./"
   },
   "devDependencies": {
     "@types/glob": "^7.2.0",
@@ -124,10 +117,6 @@
     "vite": "^3.1.8"
   },
   "dependencies": {
-    "imagemin": "^8.0.1",
-    "imagemin-jpegtran": "^7.0.0",
-    "imagemin-pngout": "^5.0.0",
-    "imagemin-pngquant": "^9.0.2",
     "is-wsl": "^2.2.0",
     "moment": "^2.29.4"
   }
