@@ -91,6 +91,10 @@ It works the same as [Paste Image](https://marketplace.visualstudio.com/items?it
 
 ## Release Notes
 
+### 2.8.0
+
+support delete image file in markdown
+
 ### 2.7.0
 
 - https://github.com/dzylikecode/Inspire-VSCodeExt-Paste-Image/issues/21
