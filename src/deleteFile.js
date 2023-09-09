@@ -26,7 +26,7 @@ function registerServe(context) {
 }
 
 class MarkdownPreviewHoverProvider {
-  provideHover(document, position) {
+  async provideHover(document, position) {
     // Check if the current position is within an image tag
     const line = document.lineAt(position.line);
     const imageRegex = /!\[.*\]\((.*)\)/g;
@@ -39,16 +39,19 @@ class MarkdownPreviewHoverProvider {
     const imagePath = getFilePath(match[1]);
     const imagePreview = new vscode.MarkdownString(
       //   `![${imagePath}](${imagePath}|height=${100}) <br> [Delete](${deleteFile()} "Delete Image")`
-      `[Delete](${deleteFile()} "Delete Image")`
+      `${
+        (await fileExists(imagePath))
+          ? `[Delete](${deleteFile(imagePath)} "Delete Image")`
+          : "not found"
+      }`
     );
     imagePreview.isTrusted = true;
     const hover = new vscode.Hover(imagePreview);
 
     return hover;
 
-    function deleteFile() {
-      const imageUri = imagePath;
-      const args = [imageUri];
+    function deleteFile(uri) {
+      const args = [uri];
       return vscode.Uri.parse(
         `command:md-paste-enhanced.deleteFile?${encodeURIComponent(
           JSON.stringify(args)
@@ -60,6 +63,16 @@ class MarkdownPreviewHoverProvider {
       const curDir = path.dirname(document.uri.fsPath);
       return path.join(curDir, filePath);
     }
+  }
+}
+
+// check file exist
+async function fileExists(uri) {
+  try {
+    await vscode.workspace.fs.stat(vscode.Uri.file(uri));
+    return true;
+  } catch (error) {
+    return false;
   }
 }
 
