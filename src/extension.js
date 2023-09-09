@@ -1,6 +1,7 @@
 const vscode = require("vscode");
 const main = require("./main.js");
 const logger = require("./logger.js");
+const deleteFileServe = require("./deleteFile.js");
 
 async function activate(context) {
   logger.log("md-paste-image activate");
@@ -16,6 +17,8 @@ async function activate(context) {
   );
 
   context.subscriptions.push(disposable);
+
+  deleteFileServe.registerServe(context);
 }
 
 function deactivate() {

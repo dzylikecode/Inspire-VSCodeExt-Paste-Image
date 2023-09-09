@@ -2,7 +2,7 @@
   "name": "md-paste-enhanced",
   "displayName": "markdown paste enhanced",
   "description": "use ctrl+v to paste image directly in markdown",
-  "version": "2.7.0",
+  "version": "2.8.0",
   "engines": {
     "vscode": "^1.71.0"
   },
@@ -35,7 +35,7 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:md-paste-enhanced.paste"
+    "onLanguage:markdown"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -96,6 +96,8 @@
   "scripts": {
     "lint": "eslint .",
     "pretest": "npm run lint",
+    "pack": "vsce package",
+    "build": "npm run vscode:prepublish && npm run pack",
     "test": "node ./test/runTest.js",
     "vscode:prepublish": "npm run esbuild-base -- --minify",
     "esbuild-base": "esbuild ./src/extension.js --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node",

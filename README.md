@@ -9,7 +9,9 @@ It works the same as [Paste Image](https://marketplace.visualstudio.com/items?it
 
 ## Features
 
-use `ctrl + v` to paste images from the clipboard when writing markdown.
+- use `ctrl + v` to paste images from the clipboard when writing markdown.
+- support delete image file in markdown
+  ![](assets/2023-09-09-15-53-31.png)
 
 ## Extension Settings
 
@@ -184,3 +186,9 @@ Initial release
 If you want more feature, for example, make it work on Mac and Linux, Please open an issue or pull request. 😏 😏 😏
 
 **Enjoy!** 😊 😊 😊
+
+## References
+
+- [Commands | Visual Studio Code Extension API](https://code.visualstudio.com/api/extension-guides/command)
+- [vscode-extension-samples/decorator-sample/USAGE.md at main · microsoft/vscode-extension-samples](https://github.com/microsoft/vscode-extension-samples/blob/main/decorator-sample/USAGE.md)
+- [kisstkondoros/gutter-preview](https://github.com/kisstkondoros/gutter-preview)
