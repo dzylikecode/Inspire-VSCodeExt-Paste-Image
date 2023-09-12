@@ -2,7 +2,7 @@
   "name": "md-paste-enhanced",
   "displayName": "markdown paste enhanced",
   "description": "use ctrl+v to paste image directly in markdown",
-  "version": "2.8.1",
+  "version": "2.9.0",
   "engines": {
     "vscode": "^1.71.0"
   },
@@ -76,6 +76,11 @@
             ".jpg"
           ],
           "description": "The type of image file you want to save"
+        },
+        "mdPasteEnhanced.createFileExt": {
+          "type": "string",
+          "default": ".excalidraw.svg",
+          "description": "The type of image file you want to create"
         }
       }
     },
@@ -83,8 +88,20 @@
       {
         "command": "md-paste-enhanced.paste",
         "title": "paste image from clipboard"
+      },
+      {
+        "command": "md-paste-enhanced.create",
+        "title": "create an empty image file"
       }
     ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "md-paste-enhanced.create",
+          "group": "md-paste-enhanced"
+        }
+      ]
+    },
     "keybindings": [
       {
         "key": "ctrl+v",

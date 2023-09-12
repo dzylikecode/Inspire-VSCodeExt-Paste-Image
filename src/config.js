@@ -1,5 +1,6 @@
 const vscode = require("vscode");
 const path = require("path");
+const { config } = require("process");
 
 let fileDirConfig;
 let baseDirConfig;
@@ -13,15 +14,6 @@ function init(context) {
     vscode.workspace.getConfiguration("mdPasteEnhanced")["basePath"];
   extensionPath = context.extensionPath;
   fileExt = vscode.workspace.getConfiguration("mdPasteEnhanced")["ImageType"];
-  switch (fileExt) {
-    case ".png":
-      break;
-    case ".jpg":
-      break;
-    default:
-      vscode.window.showErrorMessage(`Invalid file extension: ${fileExt}`);
-      throw new Error(`Invalid file extension: ${fileExt}`);
-  }
 }
 
 function calcPathVariables(patternString) {
@@ -64,28 +56,29 @@ function calcPathVariables(patternString) {
   return path.normalize(patternString);
 }
 
-module.exports = {
-  init,
+class Config {
+  constructor() {}
+  loadConfig(context) {
+    this.fileDirConfig =
+      vscode.workspace.getConfiguration("mdPasteEnhanced")["path"];
+    this.baseDirConfig =
+      vscode.workspace.getConfiguration("mdPasteEnhanced")["basePath"];
+    this.extensionPath = context.extensionPath;
+    this.pasteExt =
+      vscode.workspace.getConfiguration("mdPasteEnhanced")["ImageType"];
+    this.createExt =
+      vscode.workspace.getConfiguration("mdPasteEnhanced")["createFileExt"];
+    this.renderPattern =
+      vscode.workspace.getConfiguration("mdPasteEnhanced")["renderPattern"];
+    this.confirmPattern =
+      vscode.workspace.getConfiguration("mdPasteEnhanced")["confirmPattern"];
+  }
   get fileDir() {
-    return calcPathVariables(fileDirConfig);
-  },
+    return calcPathVariables(this.fileDirConfig);
+  }
   get baseDir() {
-    return calcPathVariables(baseDirConfig);
-  },
-  get extensionPath() {
-    return extensionPath;
-  },
-  get fileExt() {
-    return fileExt;
-  },
-  get renderPattern() {
-    return vscode.workspace.getConfiguration("mdPasteEnhanced")[
-      "renderPattern"
-    ];
-  },
-  get confirmPattern() {
-    return vscode.workspace.getConfiguration("mdPasteEnhanced")[
-      "confirmPattern"
-    ];
-  },
-};
+    return calcPathVariables(this.baseDirConfig);
+  }
+}
+
+module.exports = new Config();

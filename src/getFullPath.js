@@ -41,13 +41,13 @@ function confirmFullPath(defaultFullPath) {
   });
 }
 
-async function getFullPath(confirmPattern) {
+async function getFullPath(confirmPattern, fileExt) {
   const defaultName = getDefaultName();
   const defaultDir = getDefaultFileDir();
   const defaultFullPath = path.format({
     dir: defaultDir,
     name: defaultName,
-    ext: config.fileExt,
+    ext: fileExt,
   });
   if (confirmPattern == "None") {
     return defaultFullPath;
@@ -56,7 +56,7 @@ async function getFullPath(confirmPattern) {
     return path.format({
       dir: defaultDir,
       name: nameConfirmed,
-      ext: config.fileExt,
+      ext: fileExt,
     });
   } else if (confirmPattern == "Full Path") {
     const fullPathConfirmed = await confirmFullPath(defaultFullPath);

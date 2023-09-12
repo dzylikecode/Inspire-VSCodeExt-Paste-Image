@@ -12,6 +12,7 @@ It works the same as [Paste Image](https://marketplace.visualstudio.com/items?it
 - use `ctrl + v` to paste images from the clipboard when writing markdown.
 - support delete image file in markdown
   ![](assets/2023-09-09-15-53-31.png)
+- support to create an empty image to draw, which is very useful for the extension [Draw.io Integration](https://marketplace.visualstudio.com/items?itemName=hediet.vscode-drawio) and [Excalidraw - Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=pomdtr.excalidraw-editor)
 
 ## Extension Settings
 
@@ -85,11 +86,21 @@ It works the same as [Paste Image](https://marketplace.visualstudio.com/items?it
 
     show dialog with image full path to be confirmed
 
+- `mdPasteEnhanced.createFileExt`: string
+
+  the extension of image file to be created
+
+  - `default`: `.excalidraw.svg`
+
 ## Known Issues
 
 > The plugin [`Markdown All in One`](https://github.com/yzhang-gh/vscode-markdown) will block the function that you paste image when selecting text. It's better to remove the condition that triggers paste `ctrl+v` in the shortcut settings of [`Markdown All in One`](https://github.com/yzhang-gh/vscode-markdown). Don't worry, this plugin will call the paste function of [`Markdown All in One`](https://github.com/yzhang-gh/vscode-markdown). I just think it's a bit of a hassle, why they can't work together without realizing the exsistence of each other.
 
 ## Release Notes
+
+### 2.9.0
+
+support create an empty image
 
 ### 2.8.0
 
