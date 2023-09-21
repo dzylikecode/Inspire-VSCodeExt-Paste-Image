@@ -42,20 +42,26 @@ function registerServe(context) {
     //     shell: true,
     //   }
     // ).on("error", (e) => vscode.window.showInformationMessage(e.message));
+    const cmd = config.editMap.find((item) => {
+      return item.exts.find((ext) => fileName.endsWith(ext));
+    });
+    if (!cmd) {
+      vscode.window.showInformationMessage(`No edit software for ${fileName}`);
+      return;
+    }
     const task = new vscode.Task(
       { type: "shell" },
       vscode.TaskScope.Workspace,
       "edit",
       "mdPasteEnhanced",
+      // how to deal with `Start-Process \"mspaint\" -ArgumentList \"d:\code\Inspire-VSCodeExt-Paste-Image\test\hello world\2023-09-21-11-25-32.png\"`?
       new vscode.ShellExecution(
-        `Start-Process \\"${
-          config.editSoftware.command
-        }\\" -ArgumentList \\"${config.editSoftware.args.join(
-          " "
-        )} ${fileName}\\"`,
-        {
-          cwd: fileDir,
-        }
+        `Start-Process '${cmd.exeName}' -ArgumentList '${cmd
+          .parseArgs(filePath)
+          .join(" ")}'`
+        // {
+        //   cwd: fileDir,
+        // }
       )
     );
     return await vscode.tasks.executeTask(task);

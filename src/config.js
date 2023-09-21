@@ -72,11 +72,46 @@ class Config {
       vscode.workspace.getConfiguration("mdPasteEnhanced")["renderPattern"];
     this.confirmPattern =
       vscode.workspace.getConfiguration("mdPasteEnhanced")["confirmPattern"];
-    this.editSoftware = {
-      command:
-        vscode.workspace.getConfiguration("mdPasteEnhanced")["editCommand"],
-      args: vscode.workspace.getConfiguration("mdPasteEnhanced")["editArgs"],
-    };
+    this.editMap = getEditMap();
+
+    function getEditMap() {
+      /**@type {string[]} */
+      const cmds =
+        vscode.workspace.getConfiguration("mdPasteEnhanced")["editMap"];
+      return cmds.map(parseCmd);
+      /**
+       *
+       * @param {string} command
+       */
+      function parseCmd(command) {
+        const part = /(?:[^\s"]+|"[^"]*")+/g;
+        const [exeName, ...args] = command.match(part);
+        // get file extension such as *.svg *.png
+        // const regName = /(\*\.[^\s]+)/g;
+        // /**@type {string[]} */
+        // const exts = [];
+        // const args = Rest.replace(regName, (match, p1) => {
+        //   exts.push(p1.slice(1));
+        //   return "";
+        // });
+        const exts = args
+          .filter((arg) => arg.startsWith("*"))
+          .map((arg) => arg.slice(1));
+        return {
+          exeName: exeName.replace(/^"|"$/g, ""),
+          args,
+          exts,
+          parseArgs,
+        };
+        function parseArgs(fileName) {
+          return args.map((arg) => {
+            if (!arg.startsWith("*")) return arg;
+            const ext = arg.slice(1);
+            return fileName.endsWith(ext) ? `"${fileName}"` : "";
+          });
+        }
+      }
+    }
   }
   get fileDir() {
     return calcPathVariables(this.fileDirConfig);
