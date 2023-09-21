@@ -72,6 +72,11 @@ class Config {
       vscode.workspace.getConfiguration("mdPasteEnhanced")["renderPattern"];
     this.confirmPattern =
       vscode.workspace.getConfiguration("mdPasteEnhanced")["confirmPattern"];
+    this.editSoftware = {
+      command:
+        vscode.workspace.getConfiguration("mdPasteEnhanced")["editCommand"],
+      args: vscode.workspace.getConfiguration("mdPasteEnhanced")["editArgs"],
+    };
   }
   get fileDir() {
     return calcPathVariables(this.fileDirConfig);

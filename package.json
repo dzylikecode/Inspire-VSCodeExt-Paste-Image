@@ -2,7 +2,7 @@
   "name": "md-paste-enhanced",
   "displayName": "markdown paste enhanced",
   "description": "use ctrl+v to paste image directly in markdown",
-  "version": "2.9.0",
+  "version": "2.10.0",
   "engines": {
     "vscode": "^1.71.0"
   },
@@ -81,6 +81,19 @@
           "type": "string",
           "default": ".excalidraw.svg",
           "description": "The type of image file you want to create"
+        },
+        "mdPasteEnhanced.editCommand": {
+          "type": "string",
+          "default": "mspaint",
+          "description": "The edit software you want to use to edit image file. eg. \"D:\\Program Files\\draw.io\\draw.io.exe\""
+        },
+        "mdPasteEnhanced.editArgs": {
+          "type": "array",
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "description": "The arguments of the software you want to edit image. eg. [\"--enable-plugins\"]"
         }
       }
     },

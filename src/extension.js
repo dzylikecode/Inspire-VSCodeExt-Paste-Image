@@ -1,7 +1,7 @@
 const vscode = require("vscode");
 const { paste } = require("./paste.js");
 const logger = require("./logger.js");
-const deleteFileServe = require("./deleteFile.js");
+const deleteFileServe = require("./hoverMenu.js");
 const config = require("./config.js");
 const { create } = require("./createFile.js");
 

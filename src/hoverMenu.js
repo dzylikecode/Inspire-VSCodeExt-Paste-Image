@@ -1,5 +1,7 @@
 const vscode = require("vscode");
 const path = require("path");
+const spawn = require("child_process").spawn;
+const config = require("./config.js");
 
 function registerServe(context) {
   // Register the markdown preview hover provider
@@ -14,6 +16,10 @@ function registerServe(context) {
     vscode.commands.registerCommand("md-paste-enhanced.deleteFile", deleteFile)
   );
 
+  context.subscriptions.push(
+    vscode.commands.registerCommand("md-paste-enhanced.editFile", editFile)
+  );
+
   async function deleteFile(filePath) {
     const uri = vscode.Uri.file(filePath);
     try {
@@ -22,6 +28,37 @@ function registerServe(context) {
     } catch (error) {
       console.error(`Failed to delete file: ${filePath}`, error);
     }
+  }
+
+  async function editFile(filePath) {
+    const fileName = path.basename(filePath);
+    const fileDir = path.dirname(filePath);
+    // return spawn(
+    //   config.editSoftware.command,
+    //   // [...config.editSoftware.args, fileName],
+    //   [fileName],
+    //   {
+    //     cwd: fileDir,
+    //     shell: true,
+    //   }
+    // ).on("error", (e) => vscode.window.showInformationMessage(e.message));
+    const task = new vscode.Task(
+      { type: "shell" },
+      vscode.TaskScope.Workspace,
+      "edit",
+      "mdPasteEnhanced",
+      new vscode.ShellExecution(
+        `Start-Process \\"${
+          config.editSoftware.command
+        }\\" -ArgumentList \\"${config.editSoftware.args.join(
+          " "
+        )} ${fileName}\\"`,
+        {
+          cwd: fileDir,
+        }
+      )
+    );
+    return await vscode.tasks.executeTask(task);
   }
 }
 
@@ -41,7 +78,11 @@ class MarkdownPreviewHoverProvider {
       //   `![${imagePath}](${imagePath}|height=${100}) <br> [Delete](${deleteFile()} "Delete Image")`
       `${
         (await fileExists(imagePath))
-          ? `[Delete](${deleteFile(imagePath)} "Delete Image")`
+          ? `[Edit](${editFile(
+              imagePath
+            )} "Edit Image") | [Delete](${deleteFile(
+              imagePath
+            )} "Delete Image")`
           : "not found"
       }`
     );
@@ -54,6 +95,15 @@ class MarkdownPreviewHoverProvider {
       const args = [uri];
       return vscode.Uri.parse(
         `command:md-paste-enhanced.deleteFile?${encodeURIComponent(
+          JSON.stringify(args)
+        )}`
+      );
+    }
+
+    function editFile(uri) {
+      const args = [uri];
+      return vscode.Uri.parse(
+        `command:md-paste-enhanced.editFile?${encodeURIComponent(
           JSON.stringify(args)
         )}`
       );
