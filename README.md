@@ -98,6 +98,10 @@ It works the same as [Paste Image](https://marketplace.visualstudio.com/items?it
 
 ## Release Notes
 
+### 2.10.1
+
+fix: the path includes space
+
 ### 2.10.0
 
 support edit svg with specific App
@@ -211,4 +215,4 @@ If you want more feature, for example, make it work on Mac and Linux, Please ope
 - [Commands | Visual Studio Code Extension API](https://code.visualstudio.com/api/extension-guides/command)
 - [vscode-extension-samples/decorator-sample/USAGE.md at main · microsoft/vscode-extension-samples](https://github.com/microsoft/vscode-extension-samples/blob/main/decorator-sample/USAGE.md)
 - [kisstkondoros/gutter-preview](https://github.com/kisstkondoros/gutter-preview)
-- [Start-Process (Microsoft.PowerShell.Management) - PowerShell | Microsoft Learn](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/start-process?view=powershell-7.3)
+- [Start-Process (Microsoft.PowerShell.Management) - PowerShell | Microsoft Learn](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/start-process?view=powershell-7.3) ： 走远了, 没注意 ShellExecute 有重载

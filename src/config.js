@@ -107,7 +107,7 @@ class Config {
           return args.map((arg) => {
             if (!arg.startsWith("*")) return arg;
             const ext = arg.slice(1);
-            return fileName.endsWith(ext) ? `"${fileName}"` : "";
+            return fileName.endsWith(ext) ? `\\"${fileName}\\"` : "";
           });
         }
       }

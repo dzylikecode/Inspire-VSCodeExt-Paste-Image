@@ -56,9 +56,11 @@ function registerServe(context) {
       "mdPasteEnhanced",
       // how to deal with `Start-Process \"mspaint\" -ArgumentList \"d:\code\Inspire-VSCodeExt-Paste-Image\test\hello world\2023-09-21-11-25-32.png\"`?
       new vscode.ShellExecution(
-        `Start-Process '${cmd.exeName}' -ArgumentList '${cmd
-          .parseArgs(filePath)
-          .join(" ")}'`
+        // `Start-Process '${cmd.exeName}' -ArgumentList '${cmd
+        //   .parseArgs(filePath)
+        //   .join(" ")}'`
+        cmd.exeName,
+        cmd.parseArgs(filePath)
         // {
         //   cwd: fileDir,
         // }
