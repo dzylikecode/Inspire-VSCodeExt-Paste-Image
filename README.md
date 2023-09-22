@@ -101,7 +101,7 @@ It works the same as [Paste Image](https://marketplace.visualstudio.com/items?it
 
   the map of image file to be edited
 
-  - `default`: `[ mspaint *.png *.jpg *.jpeg *.bmp ]`
+  - `default`: `[ "mspaint *.png *.jpg *.jpeg *.bmp" ]`
 
   ![](assets/2023-09-22-09-28-56.png)
 
