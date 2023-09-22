@@ -2,7 +2,7 @@
   "name": "md-paste-enhanced",
   "displayName": "markdown paste enhanced",
   "description": "use ctrl+v to paste image directly in markdown",
-  "version": "2.10.2",
+  "version": "2.10.3",
   "engines": {
     "vscode": "^1.71.0"
   },
@@ -85,7 +85,7 @@
         "mdPasteEnhanced.editMap": {
           "type": "array",
           "default": [
-            "mspaint *.png"
+            "mspaint *.png *.jpg *.jpeg *.bmp"
           ],
           "items": {
             "type": "string"

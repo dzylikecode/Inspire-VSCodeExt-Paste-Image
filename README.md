@@ -13,6 +13,8 @@ It works the same as [Paste Image](https://marketplace.visualstudio.com/items?it
 - support delete image file in markdown
   ![](assets/2023-09-09-15-53-31.png)
 - support to create an empty image to draw, which is very useful for the extension [Draw.io Integration](https://marketplace.visualstudio.com/items?itemName=hediet.vscode-drawio) and [Excalidraw - Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=pomdtr.excalidraw-editor)
+- support edit image with specific App
+  ![](assets/2023-09-22-09-31-36.png)
 
 ## Extension Settings
 
@@ -91,6 +93,14 @@ It works the same as [Paste Image](https://marketplace.visualstudio.com/items?it
   the extension of image file to be created
 
   - `default`: `.excalidraw.svg`
+
+- `mdPasteEnhanced.editMap`: string[]
+
+  the map of image file to be edited
+
+  - `default`: `[ mspaint *.png *.jpg *.jpeg *.bmp ]`
+
+  ![](assets/2023-09-22-09-28-56.png)
 
 ## Known Issues
 
