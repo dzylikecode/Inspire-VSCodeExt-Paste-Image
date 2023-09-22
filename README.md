@@ -15,6 +15,9 @@ It works the same as [Paste Image](https://marketplace.visualstudio.com/items?it
 - support to create an empty image to draw, which is very useful for the extension [Draw.io Integration](https://marketplace.visualstudio.com/items?itemName=hediet.vscode-drawio) and [Excalidraw - Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=pomdtr.excalidraw-editor)
 - support edit image with specific App
   ![](assets/2023-09-22-09-31-36.png)
+- sometimes Github Copilot will suggest a good image name, so it's very nice to support to create an image read from clipboard (or an empty image if no image contained in clipboard) with the name suggested by Github Copilot
+  ![](assets/2023-09-22-20-28-57.png)
+  ![](assets/2023-09-22-20-30-01.png)
 
 ## Extension Settings
 

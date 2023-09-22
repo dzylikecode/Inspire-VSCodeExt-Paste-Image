@@ -2,6 +2,7 @@ const vscode = require("vscode");
 const path = require("path");
 const spawn = require("child_process").spawn;
 const config = require("./config.js");
+const clipboard = require("./clipboard/index.js");
 
 function registerServe(context) {
   // Register the markdown preview hover provider
@@ -18,6 +19,17 @@ function registerServe(context) {
 
   context.subscriptions.push(
     vscode.commands.registerCommand("md-paste-enhanced.editFile", editFile)
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand("md-paste-enhanced.createFile", createFile)
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      "md-paste-enhanced.createEmptyFile",
+      createEmptyFile
+    )
   );
 
   async function deleteFile(filePath) {
@@ -68,6 +80,43 @@ function registerServe(context) {
     );
     return await vscode.tasks.executeTask(task);
   }
+
+  async function createEmptyFile(filePath) {
+    const uri = vscode.Uri.file(filePath);
+    try {
+      if (await fileExists(filePath)) {
+        vscode.window.showInformationMessage(
+          `File already exists: ${filePath}`
+        );
+        return;
+      }
+      await vscode.workspace.fs.writeFile(uri, Buffer.from(""));
+      console.log(`Created file: ${filePath}`);
+    } catch (error) {
+      console.error(`Failed to create file: ${filePath}`, error);
+    }
+  }
+
+  async function createFile(filePath) {
+    const uri = vscode.Uri.file(filePath);
+    try {
+      if (await fileExists(filePath)) {
+        vscode.window.showInformationMessage(
+          `File already exists: ${filePath}`
+        );
+        return;
+      }
+      if (await clipboard.isImage()) {
+        const savePath = await clipboard.saveImage(filePath);
+        return;
+      } else {
+        await vscode.workspace.fs.writeFile(uri, Buffer.from(""));
+      }
+      console.log(`Created file: ${filePath}`);
+    } catch (error) {
+      console.error(`Failed to create file: ${filePath}`, error);
+    }
+  }
 }
 
 class MarkdownPreviewHoverProvider {
@@ -91,7 +140,11 @@ class MarkdownPreviewHoverProvider {
             )} "Edit Image") | [Delete](${deleteFile(
               imagePath
             )} "Delete Image")`
-          : "not found"
+          : `[Create](${createFile(
+              imagePath
+            )} 'Create Image') | [Create Empty](${createEmptyFile(
+              imagePath
+            )} 'Create Empty File')`
       }`
     );
     imagePreview.isTrusted = true;
@@ -112,6 +165,24 @@ class MarkdownPreviewHoverProvider {
       const args = [uri];
       return vscode.Uri.parse(
         `command:md-paste-enhanced.editFile?${encodeURIComponent(
+          JSON.stringify(args)
+        )}`
+      );
+    }
+
+    function createEmptyFile(uri) {
+      const args = [uri];
+      return vscode.Uri.parse(
+        `command:md-paste-enhanced.createEmptyFile?${encodeURIComponent(
+          JSON.stringify(args)
+        )}`
+      );
+    }
+
+    function createFile(uri) {
+      const args = [uri];
+      return vscode.Uri.parse(
+        `command:md-paste-enhanced.createFile?${encodeURIComponent(
           JSON.stringify(args)
         )}`
       );
