@@ -35,6 +35,14 @@ function registerServe(context) {
   async function deleteFile(filePath) {
     const uri = vscode.Uri.file(filePath);
     try {
+      const confirmed = await vscode.window.showInformationMessage(
+        `Are you sure you want to delete ${path.basename(filePath)}?`,
+        "Yes",
+        "No"
+      );
+      if (confirmed !== "Yes") {
+        return;
+      }
       await vscode.workspace.fs.delete(uri);
       console.log(`Deleted file: ${filePath}`);
     } catch (error) {
@@ -128,9 +136,13 @@ class MarkdownPreviewHoverProvider {
     if (!match || !match[1]) {
       return null;
     }
+    const imageFilePath = match[1];
+    if (isRemotePath(imageFilePath)) {
+      return null;
+    }
 
     // Create a hover with the image preview
-    const imagePath = getFilePath(match[1]);
+    const imagePath = getFilePath(imageFilePath);
     const imagePreview = new vscode.MarkdownString(
       //   `![${imagePath}](${imagePath}|height=${100}) <br> [Delete](${deleteFile()} "Delete Image")`
       `${
@@ -193,6 +205,10 @@ class MarkdownPreviewHoverProvider {
       return path.join(curDir, filePath);
     }
   }
+}
+
+function isRemotePath(filePath) {
+  return filePath.startsWith("http://") || filePath.startsWith("https://");
 }
 
 // check file exist

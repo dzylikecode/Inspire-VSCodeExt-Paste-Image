@@ -32,7 +32,7 @@ async function saveImageDecorator(fn, filePath) {
   }
 }
 
-module.exports = {
-  isImage: clipboard.isImage,
-  saveImage: saveImageDecorator.bind(null, clipboard.saveImage),
-};
+const originSaveImage = clipboard.saveImage.bind(clipboard);
+clipboard.saveImage = saveImageDecorator.bind(null, originSaveImage);
+
+module.exports = clipboard;

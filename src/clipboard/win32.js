@@ -1,6 +1,7 @@
 const spawn = require("child_process").spawn;
 const vscode = require("vscode");
 const path = require("path");
+const fs = require("fs");
 
 class ClipboardWin {
   constructor() {}
@@ -40,6 +41,42 @@ class ClipboardWin {
       )
         .on("error", (e) => vscode.window.showInformationMessage(e.message))
         .on("close", resolve);
+    });
+  }
+  blitImage(filePath) {
+    const { ext } = path.parse(filePath);
+    const workspaceDir = __dirname;
+    const tempFileName = "temp" + ext;
+    const tempFileFullPath = path.join(workspaceDir, tempFileName);
+    return new Promise((resolve, reject) => {
+      spawn(
+        "powershell",
+        [
+          "-noprofile",
+          "-command",
+          `(Get-Clipboard -Format Image).save("${tempFileName}")`,
+        ],
+        {
+          cwd: workspaceDir,
+        }
+      )
+        .on("error", (e) => vscode.window.showInformationMessage(e.message))
+        .on("close", () =>
+          // write file to the dest file
+          fs.readFile(tempFileFullPath, { encoding: "binary" }, (err, data) => {
+            if (err) {
+              reject(err);
+            } else {
+              fs.writeFile(filePath, data, { encoding: "binary" }, (err) => {
+                if (err) {
+                  reject(err);
+                } else {
+                  resolve();
+                }
+              });
+            }
+          })
+        );
     });
   }
 }
