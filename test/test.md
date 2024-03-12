@@ -7,3 +7,5 @@
 ![](HW-01-01.drawio.svg)
 ![](HW-01-02.drawio.svg)
 ![](hello/world.png)
+
+![](assets/2024-03-12-00-40-17.png)

@@ -1,8 +1,8 @@
 {
   "name": "md-paste-enhanced",
-  "displayName": "markdown paste enhanced",
-  "description": "use ctrl+v to paste image directly in markdown",
-  "version": "2.10.5",
+  "displayName": "paste image anywhere",
+  "description": "use ctrl+v to paste image directly in any file",
+  "version": "2.11.0",
   "engines": {
     "vscode": "^1.71.0"
   },
@@ -25,17 +25,17 @@
     "paste",
     "image",
     "markdown",
+    "typst",
     "paste image",
     "keybindings",
     "WSL",
-    "subsystem",
-    "compress"
+    "subsystem"
   ],
   "categories": [
     "Other"
   ],
   "activationEvents": [
-    "onLanguage:markdown"
+    "onLanguage"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -55,8 +55,20 @@
         },
         "mdPasteEnhanced.renderPattern": {
           "type": "string",
-          "default": "![](${imagePath})",
-          "description": "The pattern of image url. The ${imagePath} is the path relative to the base path."
+          "default": "![${userVar}](${imagePath})",
+          "description": "The pattern of image url. The ${imagePath} is the path relative to the base path. Deprecated!. Set renderMap instead"
+        },
+        "mdPasteEnhanced.renderMap": {
+          "type": "array",
+          "default": [
+            "**/*.md  => ![${userVar}](${imagePath})",
+            "**/*.typ => #image(\"${imagePath}\"${userVar})",
+            "**/*     => ${imagePath}"
+          ],
+          "items": {
+            "type": "string"
+          },
+          "description": "different file type use different render pattern. eg. *.md  => ![](${imagePath}), it will override configurate `renderPattern`. Order is important"
         },
         "mdPasteEnhanced.confirmPattern": {
           "type": "string",
@@ -116,7 +128,7 @@
       {
         "key": "ctrl+v",
         "command": "md-paste-enhanced.paste",
-        "when": "editorTextFocus && editorLangId == markdown"
+        "when": "editorTextFocus"
       }
     ]
   },
@@ -147,6 +159,7 @@
   },
   "dependencies": {
     "is-wsl": "^2.2.0",
+    "minimatch": "^9.0.3",
     "moment": "^2.29.4",
     "vsce": "^2.15.0"
   }

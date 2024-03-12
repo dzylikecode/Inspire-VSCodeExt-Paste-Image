@@ -8,7 +8,7 @@ function registerServe(context) {
   // Register the markdown preview hover provider
   context.subscriptions.push(
     vscode.languages.registerHoverProvider(
-      { scheme: "file", language: "markdown" },
+      { scheme: "file" }, // for all files
       new MarkdownPreviewHoverProvider()
     )
   );
@@ -131,12 +131,12 @@ class MarkdownPreviewHoverProvider {
   async provideHover(document, position) {
     // Check if the current position is within an image tag
     const line = document.lineAt(position.line);
-    const imageRegex = /!\[.*\]\((.*)\)/g;
+    const imageRegex = config.matchPattern;
     const match = imageRegex.exec(line.text);
-    if (!match || !match[1]) {
+    if (!match || !match.groups["imagePath"]) {
       return null;
     }
-    const imageFilePath = match[1];
+    const imageFilePath = match.groups["imagePath"];
     if (isRemotePath(imageFilePath)) {
       return null;
     }

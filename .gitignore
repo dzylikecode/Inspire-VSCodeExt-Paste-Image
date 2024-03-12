@@ -5,3 +5,5 @@ temp/
 .vscode/settings.json
 out/
 test/.vscode/
+*.
+test/assets/

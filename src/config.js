@@ -1,60 +1,7 @@
 const vscode = require("vscode");
 const path = require("path");
-const { config } = require("process");
-
-let fileDirConfig;
-let baseDirConfig;
-let extensionPath;
-let fileExt;
-///////////////////////////////////////
-
-function init(context) {
-  fileDirConfig = vscode.workspace.getConfiguration("mdPasteEnhanced")["path"];
-  baseDirConfig =
-    vscode.workspace.getConfiguration("mdPasteEnhanced")["basePath"];
-  extensionPath = context.extensionPath;
-  fileExt = vscode.workspace.getConfiguration("mdPasteEnhanced")["ImageType"];
-}
-
-function calcPathVariables(patternString) {
-  const variablePatterns = [
-    {
-      pattern: /\$\{currentFileDir\}/g,
-      get value() {
-        const editor = vscode.window.activeTextEditor;
-        const filePath = editor.document.uri.fsPath;
-        return path.dirname(filePath);
-      },
-    },
-    {
-      pattern: /\$\{projectRoot\}/g,
-      get value() {
-        return vscode.workspace.workspaceFolders[0].uri.fsPath;
-      },
-    },
-    {
-      pattern: /\$\{currentFileName\}/g,
-      get value() {
-        const editor = vscode.window.activeTextEditor;
-        const filePath = editor.document.uri.fsPath;
-        return path.basename(filePath);
-      },
-    },
-    {
-      pattern: /\$\{currentFileNameWithoutExt\}/g,
-      get value() {
-        const editor = vscode.window.activeTextEditor;
-        const filePath = editor.document.uri.fsPath;
-        return path.basename(filePath, path.extname(filePath));
-      },
-    },
-  ];
-
-  for (const pattern of variablePatterns) {
-    patternString = patternString.replace(pattern.pattern, pattern.value);
-  }
-  return path.normalize(patternString);
-}
+const { minimatch } = require("minimatch");
+const { calcPathVariables } = require("./builtInVar.js");
 
 class Config {
   constructor() {}
@@ -68,50 +15,12 @@ class Config {
       vscode.workspace.getConfiguration("mdPasteEnhanced")["ImageType"];
     this.createExt =
       vscode.workspace.getConfiguration("mdPasteEnhanced")["createFileExt"];
-    this.renderPattern =
+    this.renderPatternDeprecated =
       vscode.workspace.getConfiguration("mdPasteEnhanced")["renderPattern"];
+    this.renderMap = getRenderPattern();
     this.confirmPattern =
       vscode.workspace.getConfiguration("mdPasteEnhanced")["confirmPattern"];
     this.editMap = getEditMap();
-
-    function getEditMap() {
-      /**@type {string[]} */
-      const cmds =
-        vscode.workspace.getConfiguration("mdPasteEnhanced")["editMap"];
-      return cmds.map(parseCmd);
-      /**
-       *
-       * @param {string} command
-       */
-      function parseCmd(command) {
-        const part = /(?:[^\s"]+|"[^"]*")+/g;
-        const [exeName, ...args] = command.match(part);
-        // get file extension such as *.svg *.png
-        // const regName = /(\*\.[^\s]+)/g;
-        // /**@type {string[]} */
-        // const exts = [];
-        // const args = Rest.replace(regName, (match, p1) => {
-        //   exts.push(p1.slice(1));
-        //   return "";
-        // });
-        const exts = args
-          .filter((arg) => arg.startsWith("*"))
-          .map((arg) => arg.slice(1));
-        return {
-          exeName: exeName.replace(/^"|"$/g, ""),
-          args,
-          exts,
-          parseArgs,
-        };
-        function parseArgs(fileName) {
-          return args.map((arg) => {
-            if (!arg.startsWith("*")) return arg;
-            const ext = arg.slice(1);
-            return fileName.endsWith(ext) ? `\\"${fileName}\\"` : "";
-          });
-        }
-      }
-    }
   }
   get fileDir() {
     return calcPathVariables(this.fileDirConfig);
@@ -119,6 +28,88 @@ class Config {
   get baseDir() {
     return calcPathVariables(this.baseDirConfig);
   }
+  get renderPattern() {
+    const editor = vscode.window.activeTextEditor;
+    const filePath = editor.document.uri.fsPath;
+    const matchedPattern = this.renderMap.find((item) => {
+      return minimatch(filePath, item.matchRule);
+    });
+    return matchedPattern.renderPattern ?? this.renderPatternDeprecated;
+  }
+
+  get matchPattern() {
+    return convertPatternToReg(this.renderPattern);
+  }
+}
+
+function getEditMap() {
+  /**@type {string[]} */
+  const cmds = vscode.workspace.getConfiguration("mdPasteEnhanced")["editMap"];
+  return cmds.map(parseCmd);
+  /**
+   *
+   * @param {string} command
+   */
+  function parseCmd(command) {
+    const part = /(?:[^\s"]+|"[^"]*")+/g;
+    const [exeName, ...args] = command.match(part);
+    // get file extension such as *.svg *.png
+    // const regName = /(\*\.[^\s]+)/g;
+    // /**@type {string[]} */
+    // const exts = [];
+    // const args = Rest.replace(regName, (match, p1) => {
+    //   exts.push(p1.slice(1));
+    //   return "";
+    // });
+    const exts = args
+      .filter((arg) => arg.startsWith("*"))
+      .map((arg) => arg.slice(1));
+    return {
+      exeName: exeName.replace(/^"|"$/g, ""),
+      args,
+      exts,
+      parseArgs,
+    };
+    function parseArgs(fileName) {
+      return args.map((arg) => {
+        if (!arg.startsWith("*")) return arg;
+        const ext = arg.slice(1);
+        return fileName.endsWith(ext) ? `\\"${fileName}\\"` : "";
+      });
+    }
+  }
+}
+
+function getRenderPattern() {
+  /**@type {string[]} */
+  const rawPatterns =
+    vscode.workspace.getConfiguration("mdPasteEnhanced")["renderMap"];
+  return rawPatterns.map(parsePattern);
+
+  /**
+   *
+   * @param {string} str
+   * @returns
+   */
+  function parsePattern(str) {
+    const parts = str.split("=>");
+    const matchRule = parts[0].trim();
+    const renderPattern = parts[1].trim();
+    return {
+      matchRule,
+      renderPattern,
+    };
+  }
+}
+
+function convertPatternToReg(pattern) {
+  const regOp = /[|\\{}()[\]^$+*?.]/g;
+  const excapedPattern = pattern.replace(regOp, "\\$&");
+  const matchPattern = excapedPattern.replace(
+    /\\\$\\\{(.*?)\\\}/g,
+    (match, p1) => `(?<${p1}>.*?)` // group name
+  );
+  return new RegExp(matchPattern, "g");
 }
 
 module.exports = new Config();

@@ -1,11 +1,11 @@
-# md-paste-enhanced
+# paste enhanced
 
 - market: https://marketplace.visualstudio.com/items?itemName=dzylikecode.md-paste-enhanced
 - online docs: https://dzylikecode.github.io/Inspire-VSCodeExt-Paste-Image/#/
 
-Who can help me write the docs? 😭 😭 😭
-
 It works the same as [Paste Image](https://marketplace.visualstudio.com/items?itemName=mushan.vscode-paste-image) does. What I focus on is to make it work well on WSL and Windows and to use `ctrl + v` to paste images instead of `ctrl + alt + v`.
+
+paste anywhere if you want.
 
 ## Features
 
@@ -18,6 +18,8 @@ It works the same as [Paste Image](https://marketplace.visualstudio.com/items?it
 - sometimes Github Copilot will suggest a good image name, so it's very nice to support to create an image read from clipboard (or an empty image if no image contained in clipboard) with the name suggested by Github Copilot
   ![](assets/2023-09-22-20-28-57.png)
   ![](assets/2023-09-22-20-30-01.png)
+- support typst
+- support defining render pattern according to the file type ([minimatch](http://adilapapaya.com/docs/minimatch/#usage))
 
 ## Extension Settings
 
@@ -59,20 +61,6 @@ It works the same as [Paste Image](https://marketplace.visualstudio.com/items?it
 
   - `${imagePath}`: the path of image file.
 
-- `mdPasteEnhanced.compressEnable`:boolean
-
-  Whether to compress the image.
-
-  - `default`: false
-
-- `mdPasteEnhanced.compressThreshold`:number
-
-  Unit: KB
-
-  the value which is used to determine whether the image need to be compressed.
-
-  - `default`: 80
-
 - `mdPasteEnhanced.confirmPattern`: enum
 
   which pattern to be confirmed when paste image
@@ -110,6 +98,10 @@ It works the same as [Paste Image](https://marketplace.visualstudio.com/items?it
 > The plugin [`Markdown All in One`](https://github.com/yzhang-gh/vscode-markdown) will block the function that you paste image when selecting text. It's better to remove the condition that triggers paste `ctrl+v` in the shortcut settings of [`Markdown All in One`](https://github.com/yzhang-gh/vscode-markdown). Don't worry, this plugin will call the paste function of [`Markdown All in One`](https://github.com/yzhang-gh/vscode-markdown). I just think it's a bit of a hassle, why they can't work together without realizing the exsistence of each other.
 
 ## Release Notes
+
+### 2.11.0
+
+paste image anywhere
 
 ### 2.10.1
 

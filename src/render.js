@@ -1,6 +1,7 @@
 const path = require("path");
 const vscode = require("vscode");
 const config = require("./config.js");
+const { calcPathVariables } = require("./builtInVar.js");
 
 // 在markdown中渲染的形式
 function render(basePath, filePath) {
@@ -24,12 +25,9 @@ function render(basePath, filePath) {
   return;
   function getImageLink(imagePath) {
     let renderPattern = config.renderPattern;
-    return replaceVariables(renderPattern);
-    function replaceVariables(pattern) {
-      return pattern.replace(/\$\{imagePath\}/g, (match, src) => {
-        return imagePath;
-      });
-    }
+    return calcPathVariables(renderPattern, {
+      imagePath: imagePath,
+    }).replace(/\\/g, "/");
   }
 }
 
