@@ -8,19 +8,25 @@ async function paste() {
   const clipContent = await vscode.env.clipboard.readText(); // 提升速度, 有文字则不用判断是否为图片
   if (clipContent == "" && (await clipboard.isImage())) {
     try {
-      pasteImage();
+      await pasteImage();
     } catch (e) {
       vscode.window.showInformationMessage(e);
     }
   } else {
     if (vscode.window.activeTextEditor.selection.isEmpty == false) {
       try {
-        vscode.commands.executeCommand("markdown.extension.editing.paste"); // 兼容 markdown all in one
+        await vscode.commands.executeCommand(
+          "markdown.extension.editing.paste"
+        ); // 兼容 markdown all in one
       } catch (e) {
-        vscode.commands.executeCommand("editor.action.clipboardPasteAction");
+        await vscode.commands.executeCommand(
+          "editor.action.clipboardPasteAction"
+        );
       }
     } else {
-      vscode.commands.executeCommand("editor.action.clipboardPasteAction");
+      await vscode.commands.executeCommand(
+        "editor.action.clipboardPasteAction"
+      );
     }
   }
 }

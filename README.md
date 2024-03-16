@@ -99,6 +99,10 @@ paste anywhere if you want.
 
 ## Release Notes
 
+### 2.11.1
+
+fix bug: paste failed when selecting text
+
 ### 2.11.0
 
 paste image anywhere
