@@ -99,6 +99,10 @@ paste anywhere if you want.
 
 ## Release Notes
 
+### 2.11.2
+
+- custom default name
+
 ### 2.11.1
 
 fix bug: paste failed when selecting text
