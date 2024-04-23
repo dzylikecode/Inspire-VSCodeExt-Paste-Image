@@ -10,6 +10,8 @@ class Config {
       vscode.workspace.getConfiguration("mdPasteEnhanced")["path"];
     this.baseDirConfig =
       vscode.workspace.getConfiguration("mdPasteEnhanced")["basePath"];
+    this.defaultName =
+      vscode.workspace.getConfiguration("mdPasteEnhanced")["defaultName"];
     this.extensionPath = context.extensionPath;
     this.pasteExt =
       vscode.workspace.getConfiguration("mdPasteEnhanced")["ImageType"];

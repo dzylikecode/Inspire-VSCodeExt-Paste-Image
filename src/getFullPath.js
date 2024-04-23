@@ -19,7 +19,7 @@ function getDefaultName() {
   }
 
   function getDateName() {
-    return moment().format("Y-MM-DD-HH-mm-ss");
+    return moment().format(config.defaultName);
   }
 }
 

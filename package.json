@@ -2,7 +2,7 @@
   "name": "md-paste-enhanced",
   "displayName": "paste image anywhere",
   "description": "use ctrl+v to paste image directly in any file",
-  "version": "2.11.1",
+  "version": "2.11.2",
   "engines": {
     "vscode": "^1.71.0"
   },
@@ -52,6 +52,11 @@
           "type": "string",
           "default": "${currentFileDir}",
           "description": "The base path of image url. You can use some variables to customize the path. See More in https://github.com/dzylikecode/Inspire-VSCodeExt-Paste-Image"
+        },
+        "mdPasteEnhanced.defaultName": {
+          "type": "string",
+          "default": "Y-MM-DD-HH-mm-ss",
+          "description": "The default name of image file. See more in https://momentjs.com/docs/#/displaying/format/"
         },
         "mdPasteEnhanced.renderPattern": {
           "type": "string",
