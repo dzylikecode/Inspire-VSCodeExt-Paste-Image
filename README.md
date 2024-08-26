@@ -99,6 +99,10 @@ paste anywhere if you want.
 
 ## Release Notes
 
+### 2.12.0
+
+support mac
+
 ### 2.11.2
 
 - custom default name

@@ -2,7 +2,7 @@
   "name": "md-paste-enhanced",
   "displayName": "paste image anywhere",
   "description": "use ctrl+v to paste image directly in any file",
-  "version": "2.11.2",
+  "version": "2.12.0",
   "engines": {
     "vscode": "^1.71.0"
   },
@@ -37,7 +37,7 @@
   "activationEvents": [
     "onLanguage"
   ],
-  "main": "./src/extension.js",
+  "main": "./out/extension.js",
   "contributes": {
     "configuration": {
       "title": "Markdown-Paste-Enhanced",
