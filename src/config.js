@@ -108,13 +108,23 @@ function getRenderPattern() {
 }
 
 function convertPatternToReg(pattern) {
+  // Define a regular expression to escape special regex characters
   const regOp = /[|\\{}()[\]^$+*?.]/g;
-  const excapedPattern = pattern.replace(regOp, "\\$&");
-  const matchPattern = excapedPattern.replace(
+  
+  // Escape special characters in the pattern, so it can be safely converted to a regex
+  const escapedPattern = pattern.replace(regOp, "\\$&");
+  
+  // Replace placeholders like ${imagePath} with named capturing groups in the regex.
+  // Using `.*` (instead of non-greedy `.*?`) allows the match to extend to the end of the line,
+  // ensuring that paths or other elements are fully captured even if they are longer.
+  const matchPattern = escapedPattern.replace(
     /\\\$\\\{(.*?)\\\}/g,
-    (match, p1) => `(?<${p1}>.*?)` // group name
-  );
+    (match, p1) => `(?<${p1}>.*)` // Greedy match to capture complete path
+  ).replace(/image::\s*/, "image::\\s*"); // Make space after "image::" optional
+  
+  // Return the constructed regular expression
   return new RegExp(matchPattern, "g");
 }
+
 
 module.exports = new Config();
