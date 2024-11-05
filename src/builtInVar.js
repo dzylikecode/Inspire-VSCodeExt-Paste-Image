@@ -8,7 +8,9 @@ const theVars = {
     return path.dirname(filePath);
   },
   get projectRoot() {
-    return vscode.workspace.workspaceFolders[0].uri.fsPath;
+    const defaultWorkspace = vscode.workspace.workspaceFolders[0];
+    const activeWorkspaceFolder = vscode.workspace.getWorkspaceFolder(vscode.window.activeTextEditor.document.uri);
+    return activeWorkspaceFolder ? activeWorkspaceFolder.uri.fsPath : defaultWorkspace.uri.fsPath;
   },
   get currentFileName() {
     const editor = vscode.window.activeTextEditor;
