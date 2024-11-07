@@ -46,22 +46,26 @@
         "mdPasteEnhanced.path": {
           "type": "string",
           "default": "${currentFileDir}/assets",
-          "description": "The destination to save image file. You can use some variables to customize the path. See More in https://github.com/dzylikecode/Inspire-VSCodeExt-Paste-Image"
+          "description": "The destination to save image file. You can use some variables to customize the path. See More in https://github.com/dzylikecode/Inspire-VSCodeExt-Paste-Image",
+          "scope": "resource"
         },
         "mdPasteEnhanced.basePath": {
           "type": "string",
           "default": "${currentFileDir}",
-          "description": "The base path of image url. You can use some variables to customize the path. See More in https://github.com/dzylikecode/Inspire-VSCodeExt-Paste-Image"
+          "description": "The base path of image url. You can use some variables to customize the path. See More in https://github.com/dzylikecode/Inspire-VSCodeExt-Paste-Image",
+          "scope": "resource"
         },
         "mdPasteEnhanced.defaultName": {
           "type": "string",
           "default": "Y-MM-DD-HH-mm-ss",
-          "description": "The default name of image file. See more in https://momentjs.com/docs/#/displaying/format/"
+          "description": "The default name of image file. See more in https://momentjs.com/docs/#/displaying/format/",
+          "scope": "resource"
         },
         "mdPasteEnhanced.renderPattern": {
           "type": "string",
           "default": "![${userVar}](${imagePath})",
-          "description": "The pattern of image url. The ${imagePath} is the path relative to the base path. Deprecated!. Set renderMap instead"
+          "description": "The pattern of image url. The ${imagePath} is the path relative to the base path. Deprecated!. Set renderMap instead",
+          "scope": "resource"
         },
         "mdPasteEnhanced.renderMap": {
           "type": "array",
@@ -73,7 +77,8 @@
           "items": {
             "type": "string"
           },
-          "description": "different file type use different render pattern. eg. *.md  => ![](${imagePath}), it will override configurate `renderPattern`. Order is important"
+          "description": "different file type use different render pattern. eg. *.md  => ![](${imagePath}), it will override configurate `renderPattern`. Order is important",
+          "scope": "resource"
         },
         "mdPasteEnhanced.confirmPattern": {
           "type": "string",
@@ -83,7 +88,8 @@
             "Just Name",
             "Full Path"
           ],
-          "description": "the pattern that you want to confirm when you paste image"
+          "description": "the pattern that you want to confirm when you paste image",
+          "scope": "resource"
         },
         "mdPasteEnhanced.ImageType": {
           "type": "string",
@@ -92,12 +98,14 @@
             ".png",
             ".jpg"
           ],
-          "description": "The type of image file you want to save"
+          "description": "The type of image file you want to save",
+          "scope": "resource"
         },
         "mdPasteEnhanced.createFileExt": {
           "type": "string",
           "default": ".excalidraw.svg",
-          "description": "The type of image file you want to create"
+          "description": "The type of image file you want to create",
+          "scope": "resource"
         },
         "mdPasteEnhanced.editMap": {
           "type": "array",
@@ -107,7 +115,8 @@
           "items": {
             "type": "string"
           },
-          "description": "The edit software you want to use to edit image file. eg. D:\\Program Files\\draw.io\\draw.io.exe --enable-plugins *.drawio.svg"
+          "description": "The edit software you want to use to edit image file. eg. D:\\Program Files\\draw.io\\draw.io.exe --enable-plugins *.drawio.svg",
+          "scope": "resource"
         }
       }
     },
