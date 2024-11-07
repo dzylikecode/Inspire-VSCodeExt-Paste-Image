@@ -6,24 +6,36 @@ const { calcPathVariables } = require("./builtInVar.js");
 class Config {
   constructor() {}
   loadConfig(context) {
-    this.fileDirConfig =
-      vscode.workspace.getConfiguration("mdPasteEnhanced")["path"];
-    this.baseDirConfig =
-      vscode.workspace.getConfiguration("mdPasteEnhanced")["basePath"];
-    this.defaultName =
-      vscode.workspace.getConfiguration("mdPasteEnhanced")["defaultName"];
     this.extensionPath = context.extensionPath;
-    this.pasteExt =
-      vscode.workspace.getConfiguration("mdPasteEnhanced")["ImageType"];
-    this.createExt =
-      vscode.workspace.getConfiguration("mdPasteEnhanced")["createFileExt"];
-    this.renderPatternDeprecated =
-      vscode.workspace.getConfiguration("mdPasteEnhanced")["renderPattern"];
-    this.renderMap = getRenderPattern();
-    this.confirmPattern =
-      vscode.workspace.getConfiguration("mdPasteEnhanced")["confirmPattern"];
-    this.editMap = getEditMap();
   }
+  get fileDirConfig() {
+    return vscode.workspace.getConfiguration("mdPasteEnhanced", vscode.window.activeTextEditor.document)["path"];
+  }
+  get baseDirConfig() {
+    return vscode.workspace.getConfiguration("mdPasteEnhanced", vscode.window.activeTextEditor.document)["basePath"];
+  }
+  get defaultName() {
+    return vscode.workspace.getConfiguration("mdPasteEnhanced", vscode.window.activeTextEditor.document)["defaultName"];
+  }
+  get pasteExt() {
+    return vscode.workspace.getConfiguration("mdPasteEnhanced", vscode.window.activeTextEditor.document)["ImageType"];
+  }
+  get createExt() {
+    return vscode.workspace.getConfiguration("mdPasteEnhanced", vscode.window.activeTextEditor.document)["createFileExt"];
+  }
+  get renderPatternDeprecated() {
+    return vscode.workspace.getConfiguration("mdPasteEnhanced", vscode.window.activeTextEditor.document)["renderPattern"];
+  }
+  get confirmPattern() {
+    return vscode.workspace.getConfiguration("mdPasteEnhanced", vscode.window.activeTextEditor.document)["confirmPattern"];
+  }
+  get renderMap() {
+    return getRenderPattern();
+  }
+  get editMap() {
+    return getEditMap();
+  }
+
   get fileDir() {
     return calcPathVariables(this.fileDirConfig);
   }
