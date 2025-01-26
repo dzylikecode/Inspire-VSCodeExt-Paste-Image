@@ -3,15 +3,17 @@ const ClipboardWin = require("./win32.js");
 const ClipboardWSL = require("./wsl.js");
 const ClipboardMac = require("./mac.js");
 const PluginError = require("../error.js");
+
 function Clipboard() {
   const platform = process.platform;
-  if (platform == "win32") {
+  const isActuallyWsl = isWsl.default || isWsl;
+  if (platform === "win32") {
     return new ClipboardWin();
-  } else if (isWsl) {
+  } else if (isActuallyWsl === true) {
     return new ClipboardWSL();
-  } else if (platform == "darwin") {
+  } else if (platform === "darwin") {
     return new ClipboardMac();
-  } else if (platform == "linux") {
+  } else if (platform === "linux") {
     throw new PluginError("under development");
   } else {
     throw new PluginError("unknown platform")
