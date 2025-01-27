@@ -97,6 +97,30 @@ paste anywhere if you want.
 
 > The plugin [`Markdown All in One`](https://github.com/yzhang-gh/vscode-markdown) will block the function that you paste image when selecting text. It's better to remove the condition that triggers paste `ctrl+v` in the shortcut settings of [`Markdown All in One`](https://github.com/yzhang-gh/vscode-markdown). Don't worry, this plugin will call the paste function of [`Markdown All in One`](https://github.com/yzhang-gh/vscode-markdown). I just think it's a bit of a hassle, why they can't work together without realizing the exsistence of each other.
 
+## debug
+
+1. git clone the project
+  
+   ```bash
+   git clone https://github.com/dzylikecode/Inspire-VSCodeExt-Paste-Image.git
+   ```
+
+2. install npm dependencies
+
+   ```bash
+   cd Inspire-VSCodeExt-Paste-Image
+   npm install
+   ```
+
+3. open the project in vscode and press `F5` to debug
+
+
+4. publish the extension
+
+   ```bash
+   npm run build
+   ```
+
 ## Release Notes
 
 ### 2.12.0
