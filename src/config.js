@@ -58,7 +58,7 @@ class Config {
 
 function getEditMap() {
   /**@type {string[]} */
-  const cmds = vscode.workspace.getConfiguration("mdPasteEnhanced")["editMap"];
+  const cmds = vscode.workspace.getConfiguration("mdPasteEnhanced", vscode.window.activeTextEditor.document)["editMap"];
   return cmds.map(parseCmd);
   /**
    *
@@ -97,7 +97,7 @@ function getEditMap() {
 function getRenderPattern() {
   /**@type {string[]} */
   const rawPatterns =
-    vscode.workspace.getConfiguration("mdPasteEnhanced")["renderMap"];
+    vscode.workspace.getConfiguration("mdPasteEnhanced", vscode.window.activeTextEditor.document)["renderMap"];
   return rawPatterns.map(parsePattern);
 
   /**
