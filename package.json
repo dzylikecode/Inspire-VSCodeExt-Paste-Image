@@ -2,7 +2,7 @@
   "name": "md-paste-enhanced",
   "displayName": "paste image anywhere",
   "description": "use ctrl+v to paste image directly in any file",
-  "version": "2.13.1",
+  "version": "2.13.2",
   "engines": {
     "vscode": "^1.71.0"
   },
