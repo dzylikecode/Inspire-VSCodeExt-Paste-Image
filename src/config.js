@@ -48,8 +48,11 @@ class Config {
     const matchedPattern = this.renderMap.find((item) => {
       return minimatch(filePath, item.matchRule);
     });
-    return matchedPattern.renderPattern ?? this.renderPatternDeprecated;
-  }
+
+    // Apply the replacement so that \n is converted to a real newline
+    const pattern = matchedPattern?.renderPattern ?? this.renderPatternDeprecated;
+    return pattern.replace(/\\n/g, '\n');
+}
 
   get matchPattern() {
     return convertPatternToReg(this.renderPattern);
