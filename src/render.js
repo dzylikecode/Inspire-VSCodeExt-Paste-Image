@@ -26,8 +26,8 @@ function render(basePath, filePath) {
   function getImageLink(imagePath) {
     let renderPattern = config.renderPattern;
     return calcPathVariables(renderPattern, {
-      imagePath: imagePath,
-    }).replace(/\\/g, "/");
+      imagePath: imagePath.replace(/\\/g, "/"),
+    });
   }
 }
 
