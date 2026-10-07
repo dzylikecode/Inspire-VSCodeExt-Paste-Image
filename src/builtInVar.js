@@ -28,13 +28,14 @@ const theVars = {
  *
  * @param {string} patternString
  * @param {*} context
+ * @param {string} pathSeparator
  */
-function calcPathVariables(patternString, context = {}) {
+function calcPathVariables(patternString, context = {}, pathSeparator = "/") {
   const realPath = patternString.replace(
     /\$\{(.*?)\}/g,
     (match, varName) => context[varName] ?? theVars[varName] ?? defaultVar
   );
-  return path.normalize(realPath);
+  return path.normalize(realPath).replace(/\\/g, pathSeparator);
 }
 
 module.exports = { calcPathVariables };
